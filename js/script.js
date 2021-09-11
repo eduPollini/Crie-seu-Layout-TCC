@@ -9,7 +9,7 @@ window.onload = function(){
     ctx = canvas.getContext('2d');
     var componentes = [];
     var imgPlantaBaixa = new Image();
-    imgPlantaBaixa.src = "img/rascunho.png";
+    imgPlantaBaixa.src = "imagens/rascunho.png";
     selecionado = false;
     document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
 
