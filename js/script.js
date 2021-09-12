@@ -4,7 +4,13 @@ var elemento;
 var qtdMesaQuadrada = 25;
 var selecionado;
 
+//Interação menu sanduiche
+document.querySelector(".hamburguer").addEventListener("click", () =>
+    document.querySelector(".container").classList.toggle("show-menu")
+);
+
 window.onload = function(){
+    //hamburguer = document.querySelector(".hamburguer");
     canvas = document.querySelector('canvas');
     ctx = canvas.getContext('2d');
     var componentes = [];
