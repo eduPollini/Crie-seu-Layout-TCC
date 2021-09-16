@@ -1,10 +1,10 @@
 var canvas;
 var ctx;
 var elemento;
-var qtdMesaQuadrada = 25;
+var qtdMesaQuadrada = document.getElementById('qtdMesaQuadrada').value;
 var selecionado;
 
-//Interação menu sanduiche
+//Interação menu sidebar
 document.querySelector(".hamburguer").addEventListener("click", () =>
     document.querySelector(".container").classList.toggle("show-menu")
 );
@@ -15,9 +15,8 @@ window.onload = function(){
     ctx = canvas.getContext('2d');
     var componentes = [];
     var imgPlantaBaixa = new Image();
-    imgPlantaBaixa.src = "imagens/rascunho.png";
+    imgPlantaBaixa.src = "imagens/plantaBaixa.png";
     selecionado = false;
-    document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
 
     canvas.addEventListener("click", function(e){
         //Adicionar elemento
@@ -28,7 +27,7 @@ window.onload = function(){
             qtdMesaQuadrada--;
             if(qtdMesaQuadrada == 0){
                 selecionado = false;
-                document.getElementById('btnMesaQuadrada').style.cssText = 'color: black';
+                document.getElementById('btnMesaQuadrada').style.cssText = 'color: #fff';
             }
             document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
         }
@@ -68,7 +67,9 @@ window.onload = function(){
         //Cancelar seleção do componente
         else{
             selecionado = false;
-            document.getElementById('btnMesaQuadrada').style.cssText = 'color: black';
+            document.getElementById('btnMesaQuadrada').style.cssText = 'color: #fff';
+
+            //atualizar contador
         }
     });
 
@@ -86,7 +87,7 @@ window.onload = function(){
         }
         else{
             selecionado = false;
-            document.getElementById('btnMesaQuadrada').style.cssText = 'color: black';
+            document.getElementById('btnMesaQuadrada').style.cssText = 'color: #fff';
         }
     });
 

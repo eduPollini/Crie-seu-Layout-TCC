@@ -23,34 +23,142 @@
 
             <header>
                 <div class="img-wrapper">
-                    <img src="imagens/salão.jpeg" alt="">
+                    <img src="imagens/salão.jpeg" alt="imagem fundo">
                 </div>
                 <div class="banner">
+                    <img src="imagens/logo.png" alt="logo">
                     <h1>Sítio Refúgio dos Pássaros</h1>
                     <p>Crie seu Layout</p>
                     <button>Começar</button>
                 </div>
             </header>
 
-            <div class="sidebar">
+            <aside class="sidebar">
                 <nav>
                     <ul class="menu">
                         <li class="menu-item"><a href="#" class="menu-link">Home</a></li>
                         <li class="menu-item"><a href="#" class="menu-link">Sobre Nós</a></li>
-                        <li class="menu-item"><a href="#" class="menu-link">Dicas</a></li>
+                        <li class="menu-item"><a href="#" class="menu-link">Tutorial</a></li>
                         <li class="menu-item"><a href="#" class="menu-link">Layout</a></li>
                         <li class="menu-item"><a href="#" class="menu-link">Contato</a></li>
                     </ul>
                 </nav>
                 <div class="social-media">
                     <i href="#" class="fab fa-facebook-f"></i>
-                    <i href="" class="fab fa-instagram"></i>
+                    <i href="#" class="fab fa-instagram"></i>
                 </div>
-            </div>
+            </aside>
+
+            <!-- Sobre Nós -->
+            <section class="sessao bg-cinza">
+                <div class="sessao-header">
+                    <h1>Sobre Nós</h1>
+                </div>
+                <div class="sessao-body">
+                    <div class="foto">
+                        <div class="foto-img-wrapper">
+                            <img src="imagens/portal.jpeg" alt="Sobre nós foto 1">
+                        </div>
+                    </div>
+                    <div class="sobre-nos-text">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic nostrum accusantium,
+                            omnis consectetur expedita ratione voluptas ipsam aliquam quam distinctio sint eligendi facilis eveniet,
+                            doloribus earum. Dolore iste assumenda reiciendis?</p>
+                    </div>
+                    <div class="foto">
+                        <div class="foto-img-wrapper">
+                            <img src="imagens/leidi.jpeg" alt="Sobre nós foto 2">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dicas -->
+            <section class="sessao bg-verde">
+                <div class="sessao-header border-white">
+                    <h1>Tutorial</h1>
+                </div>
+                <div class="sessao-body">
+                    <div class="dica">
+                        <h3></h3>
+                        <i class="fab"></i>
+                        <p></p>
+                    </div>
+                    <div class="dica">
+                        <h3></h3>
+                        <i class="fab"></i>
+                        <p></p>
+                    </div>
+                    <div class="dica">
+                        <h3></h3>
+                        <i class="fab"></i>
+                        <p></p>
+                    </div>
+                    <div class="dica">
+                        <h3></h3>
+                        <i class="fab"></i>
+                        <p></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Layout -->
+            <section class="sessao bg-cinza">
+                <div class="sessao-header">
+                    <h1>Layout</h1>
+                </div>
+                <div class="sessao-body">
+                    <div class="canvas-wrapper">
+                        <canvas></canvas>
+                    </div>
+                    <div class="menu-criacao">
+                        <div class="menu-criacao-header">
+                            <h3>Itens</h3>
+                        </div>
+                        <div class="elementos">
+                            <div class="elemento">
+                                <div class="elemento-img-wrapper">
+                                    <img src="imagens/mesaQuadrada.png" alt="img mesa quadrada">
+                                </div>
+                                <h4 id="qtdMesaQuadrada">25</h4>
+                                <button id="btnMesaQuadrada">Selecionar</button>
+                            </div>
+                            <div class="elemento">
+                                <div class="elemento-img-wrapper">
+                                    <img src="imagens/mesaQuadrada.png" alt="img mesa do bolo">
+                                </div>
+                                <h4 id="qtdMesaBolo">2</h4>
+                                <button id="btnMesaBolo">Selecionar</button>
+                            </div>
+                            <div class="elemento">
+                                <div class="elemento-img-wrapper">
+                                    <img src="imagens/mesaQuadrada.png" alt="img mesa do buffet">
+                                </div>
+                                <h4 id="qtdMesaBuffet">2</h4>
+                                <button id="btnMesaBuffet">Selecionar</button>
+                            </div>
+                            <div class="elemento">
+                                <div class="elemento-img-wrapper">
+                                    <img src="imagens/mesaQuadrada.png" alt="img mesa de carretel">
+                                </div>
+                                <h4 id="qtdMesaCarretel">3</h4>
+                                <button id="btnMesaCarretel">Selecionar</button>
+                            </div>
+                        </div>
+                        <div class="rodape">
+                            <div class="convidados">
+                                <i class="fas fa-users"></i>
+                                <h4 id="qtdConvidados">0</h4>
+                            </div>
+                            <div class="excluir">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-        <canvas width="800" height="600" style="border: 1px black solid;"></canvas>
-        <input type="button" id="btnMesaQuadrada" value="Mesa Quadrada" >
-        <a id="qtdMesaQuadrada">0</a>
+        
     </body>
 
     <script type="text/javascript" src='js/script.js'></script>
