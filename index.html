@@ -33,6 +33,7 @@
                 </div>
             </header>
 
+            <!-- Menu sidebar -->
             <aside class="sidebar">
                 <nav>
                     <ul class="menu">
@@ -109,7 +110,11 @@
                 </div>
                 <div class="sessao-body">
                     <div class="canvas-wrapper">
-                        <canvas></canvas>
+                        <canvas width="800px" height="600px">
+                            <div class="plantaBaixa-img-wrapper">
+                                <img src="imagens/plantaBaixa.png" alt="img planta baixa" id="imgPlantaBaixa">
+                            </div>
+                        </canvas>
                     </div>
                     <div class="menu-criacao">
                         <div class="menu-criacao-header">
@@ -118,40 +123,114 @@
                         <div class="elementos">
                             <div class="elemento">
                                 <div class="elemento-img-wrapper">
-                                    <img src="imagens/mesaQuadrada.png" alt="img mesa quadrada">
+                                    <img src="imagens/mesaQuadrada.png" alt="img mesa quadrada" id="imgMesaQuadrada">
                                 </div>
-                                <h4 id="qtdMesaQuadrada">25</h4>
-                                <button id="btnMesaQuadrada">Selecionar</button>
+                                <div class="qtdElemento">
+                                    <h4 id="qtdMesaQuadrada">25</h4>
+                                </div>
+                                <div class="selecionar quadrada" title="lçkj">
+                                    <button id="btnMesaQuadrada">Selecionar</button>
+                                </div>
                             </div>
                             <div class="elemento">
                                 <div class="elemento-img-wrapper">
-                                    <img src="imagens/mesaQuadrada.png" alt="img mesa do bolo">
+                                    <img src="imagens/mesaRedonda.png" alt="img mesa Redonda" id="imgMesaRedonda">
                                 </div>
-                                <h4 id="qtdMesaBolo">2</h4>
-                                <button id="btnMesaBolo">Selecionar</button>
+                                <div class="qtdElemento">
+                                    <h4 id="qtdMesaRedonda">10</h4>
+                                </div>
+                                <div class="selecionar redonda">
+                                    <button id="btnMesaRedonda">Selecionar</button>
+                                </div>
                             </div>
                             <div class="elemento">
                                 <div class="elemento-img-wrapper">
-                                    <img src="imagens/mesaQuadrada.png" alt="img mesa do buffet">
+                                    <img src="imagens/mesaBolo.png" alt="img mesa bolo" id="imgMesaBolo">
                                 </div>
-                                <h4 id="qtdMesaBuffet">2</h4>
-                                <button id="btnMesaBuffet">Selecionar</button>
+                                <div class="qtdElemento">
+                                    <h4 id="qtdMesaBolo">2</h4>
+                                </div>
+                                <div class="selecionar bolo">
+                                    <button id="btnMesaBolo">Selecionar</button>
+                                </div>
                             </div>
                             <div class="elemento">
                                 <div class="elemento-img-wrapper">
-                                    <img src="imagens/mesaQuadrada.png" alt="img mesa de carretel">
+                                    <img src="imagens/mesaQuadrada.png" alt="img mesa do buffet" id="imgMesaBuffet">
                                 </div>
-                                <h4 id="qtdMesaCarretel">3</h4>
-                                <button id="btnMesaCarretel">Selecionar</button>
+                                <div class="qtdElemento">
+                                    <h4 id="qtdMesaBuffet">2</h4>
+                                </div>
+                                <div class="selecionar buffet">
+                                    <button id="btnMesaBuffet">Selecionar</button>
+                                </div>
+                            </div>
+                            <div class="elemento">
+                                <div class="elemento-img-wrapper">
+                                    <img src="imagens/mesaCarretelG.png" alt="img mesa de carretel grande" id="imgMesaCarretelG">
+                                </div>
+                                <div class="qtdElemento">
+                                    <h4 id="qtdMesaCarretelG">3</h4>
+                                </div>
+                                <div class="selecionar carretelG">
+                                    <button id="btnMesaCarretelG">Selecionar</button>
+                                </div>
+                            </div>
+                            <div class="elemento">
+                                <div class="elemento-img-wrapper">
+                                    <img src="imagens/mesaQuadrada.png" alt="img mesa de carretel Media" id="imgMesaCarretelM">
+                                </div>
+                                <div class="qtdElemento">
+                                    <h4 id="qtdMesaCarretelM">7</h4>
+                                </div>
+                                <div class="selecionar carretelM">
+                                    <button id="btnMesaCarretelM">Selecionar</button>
+                                </div>
+                            </div>
+                            <div class="elemento">
+                                <div class="elemento-img-wrapper">
+                                    <img src="imagens/mesaQuadrada.png" alt="img mesa de carretel pequena" id="imgMesaCarretelP">
+                                </div>
+                                <div class="qtdElemento">
+                                    <h4 id="qtdMesaCarretelP">1</h4>
+                                </div>
+                                <div class="selecionar carretelP">
+                                    <button id="btnMesaCarretelP">Selecionar</button>
+                                </div>
                             </div>
                         </div>
                         <div class="rodape">
                             <div class="convidados">
-                                <i class="fas fa-users"></i>
-                                <h4 id="qtdConvidados">0</h4>
+                                <div class="icone">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="qtdConvidados">
+                                    <h4 id="qtdConvidados">0</h4>
+                                </div>
                             </div>
+                            <!-- <div class="confirmarExclusao">
+                                <p>Deseja excluir o layout?</p>
+                                <div class="confirmar">
+                                    <button id="confirmar">Confirmar</button>
+                                </div>
+                                <div class="cancelar">
+                                    <button id="cancelar"></button>
+                                </div>
+                            </div> -->
                             <div class="excluir">
                                 <i class="fas fa-trash"></i>
+                            </div>
+                            <!-- <div class="confirmarEnvio">
+                                <p>Deseja enviar o layout?</p>
+                                <div class="confirmar">
+                                    <button id="confirmar">Confirmar</button>
+                                </div>
+                                <div class="cancelar">
+                                    <button id="cancelar"></button>
+                                </div>
+                            </div> -->
+                            <div class="enviar">
+                                <button id="btnEnviar">Enviar</button>
                             </div>
                         </div>
                     </div>
@@ -162,6 +241,7 @@
     </body>
 
     <script type="text/javascript" src='js/script.js'></script>
-    <script type="text/javascript" src='js/MesaQuadrada.js'></script>
+    <script type="text/javascript" src='js/Mesa.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 </html>
