@@ -1,8 +1,19 @@
-var canvas;
-var ctx;
+var canvas = document.querySelector('canvas');
+var ctx = canvas.getContext('2d');
+var posCanvas;
+var componentes = [];
+var imgPlantaBaixa =  document.getElementById("imgPlantaBaixa");
+var imgMesaQuadrada = document.getElementById("imgMesaQuadrada");
+var imgMesaRedonda = document.getElementById("imgMesaRedonda");
+var imgMesaBolo = document.getElementById("imgMesaBolo");
+var imgMesaBuffet = document.getElementById("imgMesaBuffet");
+var imgMesaCarretelG = document.getElementById("imgMesaCarretelG");
+var imgMesaCarretelM = document.getElementById("imgMesaCarretelM");
+var imgMesaCarretelP = document.getElementById("imgMesaCarretelP");
+var qtdMesaQuadrada, qtdMesaRedonda, qtdMesaBolo, qtdMesaBuffet, qtdMesaCarretelG, qtdMesaCarretelM, qtdMesaCarretelP, qtdConvidados;
 var elemento;
-var qtdMesaQuadrada = document.getElementById('qtdMesaQuadrada').value;
 var selecionado;
+
 
 //Interação menu sidebar
 document.querySelector(".hamburguer").addEventListener("click", () =>
@@ -10,113 +21,384 @@ document.querySelector(".hamburguer").addEventListener("click", () =>
 );
 
 window.onload = function(){
-    //hamburguer = document.querySelector(".hamburguer");
-    canvas = document.querySelector('canvas');
-    ctx = canvas.getContext('2d');
-    var componentes = [];
-    var imgPlantaBaixa = new Image();
-    imgPlantaBaixa.src = "imagens/plantaBaixa.png";
+    iniciar();
+    loop();
+}
+
+function iniciar(){
+    //qtdMesaQuadrada = $("#qtdMesaQuadrada").text();
+    qtdMesaQuadrada = 25;
+    qtdMesaRedonda = 10;
+    qtdMesaBolo = 2;
+    qtdMesaBuffet = 2;
+    qtdMesaCarretelG = 3;
+    qtdMesaCarretelM = 7;
+    qtdMesaCarretelP = 1;
+    qtdConvidados = 0;
+
+    document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
+    document.querySelector("#qtdMesaRedonda").innerHTML = qtdMesaRedonda;
+    document.querySelector("#qtdMesaBolo").innerHTML = qtdMesaBolo;
+    document.querySelector("#qtdMesaBuffet").innerHTML = qtdMesaBuffet;
+    document.querySelector("#qtdMesaCarretelG").innerHTML = qtdMesaCarretelG;
+    document.querySelector("#qtdMesaCarretelM").innerHTML = qtdMesaCarretelM;
+    document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
+    document.querySelector("#qtdConvidados").innerHTML = qtdConvidados;
+    
+    cancelarSelecaoBtn();
+
     selecionado = false;
 
-    canvas.addEventListener("click", function(e){
-        //Adicionar elemento
-        if(selecionado && qtdMesaQuadrada > 0){
-            elemento.selecionado = false;
+    componentes = [];
+}
+
+function loop(){
+    window.requestAnimationFrame(loop, canvas);
+    draw();
+}
+
+function draw(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(imgPlantaBaixa, 0, 0, 800, 600);
+    posCanvas = canvas.getBoundingClientRect();
+    if(selecionado){
+        elemento.draw(ctx);
+    }
+    drawComponentes();
+}
+
+function drawComponentes(){
+    if(componentes.length > 0){
+        for(var i = 0; i < componentes.length; i++){
+            componentes[i].draw(ctx);
+        }
+    }
+}
+
+function cancelarSelecaoBtn(){
+    document.querySelector(".quadrada").classList.remove("selecionado");
+    document.querySelector(".redonda").classList.remove("selecionado");
+    document.querySelector(".bolo").classList.remove("selecionado");
+    document.querySelector(".buffet").classList.remove("selecionado");
+    document.querySelector(".carretelG").classList.remove("selecionado");
+    document.querySelector(".carretelM").classList.remove("selecionado");
+    document.querySelector(".carretelP").classList.remove("selecionado");
+}
+
+function addConvidado(elemento){
+    switch(elemento.tipo){
+        case 'quadrada':
+        case 'redonda':
+        case 'carretelG':
+            qtdConvidados += 8;
+            break;
+        case 'carretelM':
+            qtdConvidados += 6;
+            break;
+        case 'carretelP':
+            qtdConvidados += 4;
+            break;
+    }
+    document.querySelector("#qtdConvidados").innerHTML = qtdConvidados;
+}
+
+function removerConvidado(elemento){
+    switch(elemento.tipo){
+        case 'quadrada':
+        case 'redonda':
+        case 'carretelG':
+            qtdConvidados -= 8;
+            break;
+        case 'carretelM':
+            qtdConvidados -= 6;
+            break;
+        case 'carretelP':
+            qtdConvidados -= 4;
+            break;
+    }
+    document.querySelector("#qtdConvidados").innerHTML = qtdConvidados;
+}
+
+//Botões mesas
+btnMesaQuadrada.addEventListener("click", function(){
+    if(!document.querySelector(".quadrada").classList.contains("selecionado")){
+        cancelarSelecaoBtn();
+        document.querySelector(".quadrada").classList.add("selecionado");
+        selecionado = true;
+        elemento = new Mesa('quadrada', imgMesaQuadrada, 10,10,50,50);
+    }
+    else{
+        cancelarSelecaoBtn();
+        selecionado = false;
+    }
+});
+btnMesaRedonda.addEventListener("click", function(){
+    if(!document.querySelector(".redonda").classList.contains("selecionado")){
+        cancelarSelecaoBtn();
+        document.querySelector(".redonda").classList.add("selecionado");
+        selecionado = true;
+        elemento = new Mesa('redonda', imgMesaRedonda, 10,10,50,50);
+    }
+    else{
+        cancelarSelecaoBtn();
+        selecionado = false;
+    }
+});
+btnMesaBolo.addEventListener("click", function(){
+    if(!document.querySelector(".bolo").classList.contains("selecionado")){
+        cancelarSelecaoBtn();
+        document.querySelector(".bolo").classList.add("selecionado");
+        selecionado = true;
+        elemento = new Mesa('bolo', imgMesaBolo, 10,10,60,30);
+    }
+    else{
+        cancelarSelecaoBtn();
+        selecionado = false;
+    }
+});
+btnMesaBuffet.addEventListener("click", function(){
+    if(!document.querySelector(".buffet").classList.contains("selecionado")){
+        cancelarSelecaoBtn();
+        document.querySelector(".buffet").classList.add("selecionado");
+        selecionado = true;
+        elemento = new Mesa('buffet', imgMesaBuffet, 10,10,50,50);
+    }
+    else{
+        cancelarSelecaoBtn();
+        selecionado = false;
+    }
+});
+btnMesaCarretelG.addEventListener("click", function(){
+    if(!document.querySelector(".carretelG").classList.contains("selecionado")){
+        cancelarSelecaoBtn();
+        document.querySelector(".carretelG").classList.add("selecionado");
+        selecionado = true;
+        elemento = new Mesa('carretelG', imgMesaCarretelG, 10,10,50,50);
+    }
+    else{
+        cancelarSelecaoBtn();
+        selecionado = false;
+    }
+});
+btnMesaCarretelM.addEventListener("click", function(){
+    if(!document.querySelector(".carretelM").classList.contains("selecionado")){
+        cancelarSelecaoBtn();
+        document.querySelector(".carretelM").classList.add("selecionado");
+        selecionado = true;
+        elemento = new Mesa('carretelM', imgMesaCarretelM, 10,10,50,50);
+    }
+    else{
+        cancelarSelecaoBtn();
+        selecionado = false;
+    }
+});
+btnMesaCarretelP.addEventListener("click", function(){
+    if(!document.querySelector(".carretelP").classList.contains("selecionado")){
+        cancelarSelecaoBtn();
+        document.querySelector(".carretelP").classList.add("selecionado");
+        selecionado = true;
+        elemento = new Mesa('carretelP', imgMesaCarretelP, 10,10,50,50);
+    }
+    else{
+        cancelarSelecaoBtn();
+        selecionado = false;
+    }
+});
+
+//Botão excluir
+document.querySelector(".excluir").addEventListener("click", () =>
+    iniciar()
+);
+
+//Botão enviar
+document.querySelector(".enviar").addEventListener("click", () =>
+    console.log(posCanvas)
+);
+
+//Clique esquerdo
+canvas.addEventListener("click", function(e){
+    //Adicionar elemento
+    if(selecionado){
+        if(document.querySelector(".quadrada").classList.contains("selecionado") && qtdMesaQuadrada > 0){
             componentes.push(elemento);
-            elemento = new Mesa('quadrada', e.clientX-25, e.clientY-25, 30, 30);
+            elemento = new Mesa('quadrada', imgMesaQuadrada, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            addConvidado(elemento);
             qtdMesaQuadrada--;
             if(qtdMesaQuadrada == 0){
+                document.querySelector(".quadrada").classList.remove("selecionado");
                 selecionado = false;
-                document.getElementById('btnMesaQuadrada').style.cssText = 'color: #fff';
             }
             document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
         }
-        //Mover elemento
-        else if(!selecionado){
-            for(var i = 0; i < componentes.length; i++){
-                if(e.clientX >= componentes[i].x+8 && e.clientX <= componentes[i].x+componentes[i].width+8 &&
-                   e.clientY >= componentes[i].y+8 && e.clientY <= componentes[i].y+componentes[i].height+8){
-                    qtdMesaQuadrada++;
-                    selecionado = true;
-                    document.getElementById('btnMesaQuadrada').style.cssText = 'color: red';
-                    elemento = componentes[i];
-                    elemento.selecionado = true;
-                    componentes.splice(i, 1);
+        else if(document.querySelector(".redonda").classList.contains("selecionado") && qtdMesaRedonda > 0){
+            componentes.push(elemento);
+            elemento = new Mesa('redonda', imgMesaRedonda, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            addConvidado(elemento);
+            qtdMesaRedonda--;
+            if(qtdMesaRedonda == 0){
+                document.querySelector(".redonda").classList.remove("selecionado");
+                selecionado = false;
+            }
+            document.querySelector("#qtdMesaRedonda").innerHTML = qtdMesaRedonda;
+        }
+        else if(document.querySelector(".bolo").classList.contains("selecionado") && qtdMesaBolo > 0){
+            componentes.push(elemento);
+            elemento = new Mesa('bolo', imgMesaBolo, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 60, 30);
+            qtdMesaBolo--;
+            if(qtdMesaBolo == 0){
+                document.querySelector(".bolo").classList.remove("selecionado");
+                selecionado = false;
+            }
+            document.querySelector("#qtdMesaBolo").innerHTML = qtdMesaBolo;
+        }
+        else if(document.querySelector(".buffet").classList.contains("selecionado") && qtdMesaBuffet > 0){
+            componentes.push(elemento);
+            elemento = new Mesa('buffet', imgMesBuffet, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            qtdMesaBuffet--;
+            if(qtdMesaBuffet == 0){
+                document.querySelector(".buffet").classList.remove("selecionado");
+                selecionado = false;
+            }
+            document.querySelector("#qtdMesaBuffet").innerHTML = qtdMesaBuffet;
+        }
+        else if(document.querySelector(".carretelG").classList.contains("selecionado") && qtdMesaCarretelG > 0){
+            componentes.push(elemento);
+            elemento = new Mesa('carretelG', imgMesaCarretelG, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            addConvidado(elemento);
+            qtdMesaCarretelG--;
+            if(qtdMesaCarretelG == 0){
+                document.querySelector(".carretelG").classList.remove("selecionado");
+                selecionado = false;
+            }
+            document.querySelector("#qtdMesaCarretelG").innerHTML = qtdMesaCarretelG;
+        }
+        else if(document.querySelector(".carretelM").classList.contains("selecionado") && qtdMesaCarretelM > 0){
+            componentes.push(elemento);
+            elemento = new Mesa('carretelM', imgMesCarretelM, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            addConvidado(elemento);
+            qtdMesaCarretelM--;
+            if(qtdMesaCarretelM == 0){
+                document.querySelector(".carretelM").classList.remove("selecionado");
+                selecionado = false;
+            }
+            document.querySelector("#qtdMesaCarretelM").innerHTML = qtdMesaCarretelM;
+        }
+        else if(document.querySelector(".carretelP").classList.contains("selecionado") && qtdMesaCarretelP > 0){
+            componentes.push(elemento);
+            elemento = new Mesa('carretelP', imgMesCarretelP, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            addConvidado(elemento);
+            qtdMesaCarretelP--;
+            if(qtdMesaCarretelP == 0){
+                document.querySelector(".carretelP").classList.remove("selecionado");
+                selecionado = false;
+            }
+            document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
+        }
+    }
+    //Mover componente adicionado
+    else{
+        for(var i = 0; i < componentes.length; i++){
+            if(e.clientX-posCanvas.left >= componentes[i].posX && e.clientX-posCanvas.left <= componentes[i].posX+componentes[i].width &&
+            e.clientY-posCanvas.top >= componentes[i].posY && e.clientY-posCanvas.top <= componentes[i].posY+componentes[i].height){
+                switch(componentes[i].tipo){
+                    case 'quadrada':
+                        qtdMesaQuadrada++;
+                        document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
+                        document.querySelector(".quadrada").classList.add("selecionado");
+                        break;
+                    case 'redonda':
+                        qtdMesaRedonda++;
+                        document.querySelector("#qtdMesaRedonda").innerHTML = qtdMesaRedonda;
+                        document.querySelector(".redonda").classList.add("selecionado");
+                        break;
+                    case 'bolo':
+                        qtdMesaBolo++;
+                        document.querySelector("#qtdMesaBolo").innerHTML = qtdMesaBolo;
+                        document.querySelector(".bolo").classList.add("selecionado");
+                        break;
+                    case 'buffet':
+                        qtdMesaBuffet++;
+                        document.querySelector("#qtdMesaBuffet").innerHTML = qtdMesaBuffet;
+                        document.querySelector(".buffet").classList.add("selecionado");
+                        break;
+                    case 'carretelG':
+                        qtdMesaCarretelG++;
+                        document.querySelector("#qtdMesaCarretelG").innerHTML = qtdMesaCarretelG;
+                        document.querySelector(".carretelG").classList.add("selecionado");
+                        break;
+                    case 'carretelM':
+                        qtdMesaCarretelM++;
+                        document.querySelector("#qtdMesaCarretelM").innerHTML = qtdMesaCarretelM;
+                        document.querySelector(".carretelM").classList.add("selecionado");
+                        break;
+                    case 'carretelP':
+                        qtdMesaCarretelP++;
+                        document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
+                        document.querySelector(".carretelP").classList.add("selecionado");
+                        break;
                 }
+                elemento = componentes[i];
+                removerConvidado(elemento);
+                componentes.splice(i,1);
+                selecionado = true;
             }
         }
-    });
+    }
+});
 
-    //Clique direito
-    canvas.addEventListener('contextmenu', event => event.preventDefault());
-    canvas.addEventListener('contextmenu', function(e) {
-        //Deletar elemento
-        if(!selecionado){
-            for(var i = 0; i < componentes.length; i++){
-                if(e.clientX >= componentes[i].x+8 && e.clientX <= componentes[i].x+componentes[i].width+8 &&
-                   e.clientY >= componentes[i].y+8 && e.clientY <= componentes[i].y+componentes[i].height+8){                       
-                       if(componentes[i].tipo == 'quadrada'){
-                           qtdMesaQuadrada++;
-                           document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
-                       }
-                       componentes.splice(i,1);
-                       console.log('Componente ' + i + ' deletado!');
+//Clique direito
+canvas.addEventListener('contextmenu', event => event.preventDefault());
+canvas.addEventListener('contextmenu', function(e) {
+    //Deletar elemento
+    if(!selecionado){
+        for(var i = 0; i < componentes.length; i++){
+            if(e.clientX-posCanvas.left >= componentes[i].posX && e.clientX-posCanvas.left <= componentes[i].posX+componentes[i].width &&
+            e.clientY-posCanvas.top >= componentes[i].posY && e.clientY-posCanvas.top <= componentes[i].posY+componentes[i].height){
+                switch(componentes[i].tipo){
+                    case 'quadrada':
+                        qtdMesaQuadrada++;
+                        document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
+                        break;
+                    case 'redonda':
+                        qtdMesaRedonda++;
+                        document.querySelector("#qtdMesaRedonda").innerHTML = qtdMesaRedonda;
+                        break;
+                    case 'bolo':
+                        qtdMesaBolo++;
+                        document.querySelector("#qtdMesaBolo").innerHTML = qtdMesaBolo;
+                        break;
+                    case 'buffet':
+                        qtdMesaBuffet++;
+                        document.querySelector("#qtdMesaBuffet").innerHTML = qtdMesaBuffet;
+                        break;
+                    case 'carretelG':
+                        qtdMesaCarretelG++;
+                        document.querySelector("#qtdMesaCarretelG").innerHTML = qtdMesaCarretelG;
+                        break;
+                    case 'carretelM':
+                        qtdMesaCarretelM++;
+                        document.querySelector("#qtdMesaCarretelM").innerHTML = qtdMesaCarretelM;
+                        break;
+                    case 'carretelP':
+                        qtdMesaCarretelP++;
+                        document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
+                        break;
                 }
-            }
-        }
-        //Cancelar seleção do componente
-        else{
-            selecionado = false;
-            document.getElementById('btnMesaQuadrada').style.cssText = 'color: #fff';
-
-            //atualizar contador
-        }
-    });
-
-    canvas.addEventListener("mousemove", function(e){
-        if(selecionado){
-            elemento.move(e);
-        }
-    });
-
-    btnMesaQuadrada.addEventListener("click", function(e){
-        if(!selecionado){
-            elemento = new Mesa('quadrada', 10,10,30,30);
-            selecionado = true;
-            document.getElementById('btnMesaQuadrada').style.cssText = 'color: red';
-        }
-        else{
-            selecionado = false;
-            document.getElementById('btnMesaQuadrada').style.cssText = 'color: #fff';
-        }
-    });
-
-    function drawComponentes(){
-        if(componentes.length > 0){
-            for(var i = 0; i < componentes.length; i++){
-                componentes[i].draw(ctx);
-                //ctx.fillStyle = elemento.color;
-                //ctx.fillRect(componentes[i].x, componentes[i].y, componentes[i].width, componentes[i].height);
+                removerConvidado(componentes[i]);
+                componentes.splice(i,1);
             }
         }
     }
+    else{
+        cancelarSelecaoBtn();
+        selecionado = false;
 
-    function draw(){
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //ctx.drawImage(imgPlantaBaixa, 0, 0, imgPlantaBaixa.width, imgPlantaBaixa.height, 0, 0, canvas.Width, canvas.Height);
-        ctx.drawImage(imgPlantaBaixa, 0, 0);
-        if(selecionado){
-            elemento.draw(ctx);
-        }
-        drawComponentes();
     }
+});
 
-    imgPlantaBaixa.onload = function(){
-        loop();
+//Mover componente
+canvas.addEventListener("mousemove", function(e){
+    if(selecionado){
+        elemento.move(e, posCanvas);
     }
-
-    function loop(){
-        window.requestAnimationFrame(loop,canvas);
-        draw();
-    }
-}
+});

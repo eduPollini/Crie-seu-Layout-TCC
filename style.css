@@ -15,6 +15,22 @@
     --font-action: "Mulish", serif;
 }
 
+/* Scrollbar */
+body::-webkit-scrollbar {
+    width: 1.2rem;
+}
+body::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px gray; 
+    border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb {
+    background: #52c234; 
+    border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb:hover {
+    background: #2d681c; 
+}
+
 .hamburguer{
     width: 2rem;
     height: 2rem;
@@ -284,7 +300,7 @@ header{
     justify-content: space-evenly;
     align-items: center;
     padding: 20px 100px 100px 100px;
-    max-width: 67.5rem;
+    max-width: 65rem;
     margin-left: auto;
     margin-right: auto;
     
@@ -344,9 +360,20 @@ header{
     border-bottom-left-radius: 8px;
 }
 
+.plantaBaixa-img-Wrapper{
+    width: 50rem;
+    height: 37.5rem;
+}
+
+.plantaBaixa-img-Wrapper img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .menu-criacao{
     height: 37.5rem;
-    width: 17.5rem;
+    width: 15rem;
     background: #52c234;
     background: -webkit-linear-gradient(to right, #227401, #52c234);  
     background: linear-gradient(to right, #227401, #52c234);
@@ -372,44 +399,88 @@ header{
 }
 
 .elementos{
+    position: relative;
+    top: 1rem;
+    height: 29rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    margin: 2rem 1rem;
+    align-items: center;
+    overflow-y: scroll;
 }
 
+.elementos::-webkit-scrollbar {
+    width: 1rem;
+}
+.elementos::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #555; 
+    border-radius: 10px;
+}
+.elementos::-webkit-scrollbar-thumb {
+    background: rgb(145, 115, 81); 
+    border-radius: 10px;
+}
+.elementos::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(112, 89, 63); 
+}
+
+
 .elemento{
+    position: relative;
+    left: .4rem;
+    width: 13rem;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    justify-content: center;
-    align-items: center;
+    /* flex-direction: row; */
+    /* justify-content: space-evenly; */
+    /* justify-content: center; */
+    /* align-items: center; */
     margin-bottom: 1rem;
 }
 
 .elemento-img-wrapper{
     width: 4rem;
     height: 4rem;
-}
-
-.elemento-img-wrapper img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.elemento h4{
-    font-family: var(--font-action);
-    font-size: 1rem;
     background-color: #888;
-    border-radius: 999px;
-    padding: .1rem .5rem;
-    height: 1.3rem;
-    margin-right: 1rem;
+    border-radius: 8px;
     box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
 }
 
-.elemento button{
+.elemento-img-wrapper img{
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    margin-left: 5%;
+    margin-top: 5%;
+}
+
+.qtdElemento{
+    background-color: rgb(145, 115, 81);
+    border-radius: 999px;
+    padding: .1rem .5rem;
+    box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
+    height: 1.3rem;
+    margin-right: 0rem;
+    position: relative;
+    left: -.6rem;
+    bottom: -2.7rem;
+    width: .65rem;
+    height: 1.35rem;
+}
+
+.qtdElemento h4{
+    display: flex;
+    justify-content: center;
+    font-family: var(--font-action);
+    font-size: 1rem;
+    color: #000;
+}
+
+.selecionar{
+    position: relative;
+    left: 0rem;
+    top: 1.25rem;
+}
+
+.selecionar button{
     height: 1.5rem;
     font-family: var(--font-action);
     font-size: .8rem;
@@ -426,17 +497,22 @@ header{
     transition: background-color .5s;
 }
 
+.selecionado button{
+    background-color: #555;
+    box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0);
+}
+
 .elemento button:hover{
     background-color: #555;
 }
 
 .rodape{
-    width: 100%;
+    width: 13rem;
     display: flex;
-    flex-direction: row;
-    margin-top: 9.5rem;
+    justify-content: space-around;
     position: relative;
-    bottom: 1rem;
+    bottom: -2rem;
+    margin: 0 1rem;
 }
 
 .rodape i{
@@ -446,12 +522,13 @@ header{
 
 .convidados{
     display: flex;
+    left: -.5rem;
     background-color: #555;
     padding: .3rem;
     border-radius: 999px;
     box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
     position: relative;
-    left: 1rem;
+    /* left: 1rem; */
 }
 
 .convidados h4{
@@ -463,6 +540,24 @@ header{
     border-radius: 999px;
 }
 
+.confirmarExclusao{
+    position: absolute;
+    opacity: 0;
+}
+
+.confirmar button{
+    background-color: white;
+}
+
+.confirmar button:hover{
+    background-color: black;
+}
+
+.confirmarEnvio{
+    position: absolute;
+    opacity: 0;
+}
+
 .excluir{
     padding: .3rem .5rem;
     border-radius: 999px;
@@ -470,14 +565,36 @@ header{
     cursor: pointer;
     box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
     position: relative;
-    left: 9rem;
+    transition: background-color .5s;
 }
 
 .excluir:hover{
     background-color: #333;
 }
 
-.excluir i{
-    
+.enviar{
+    position: relative;
+    bottom: -.5rem;
+    right: -.5rem;
 }
 
+.enviar button{
+    height: 1.5rem;
+    font-family: var(--font-action);
+    font-size: .8rem;
+    font-weight: 500;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: rgb(145, 115, 81);
+    border: none;
+    padding: 0 .3rem;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
+    transition: background-color .5s;
+}
+
+.enviar button:hover{
+    background-color: rgb(112, 89, 63);
+}
