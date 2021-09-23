@@ -20,6 +20,8 @@ document.querySelector(".hamburguer").addEventListener("click", () =>
     document.querySelector(".container").classList.toggle("show-menu")
 );
 
+
+
 window.onload = function(){
     iniciar();
     loop();
@@ -119,6 +121,28 @@ function removerConvidado(elemento){
     document.querySelector("#qtdConvidados").innerHTML = qtdConvidados;
 }
 
+function validarEmail(email) {
+    usuario = email.value.substring(0, email.value.indexOf("@"));
+    dominio = email.value.substring(email.value.indexOf("@")+ 1, email.value.length);
+    
+    if ((usuario.length >=1) &&
+        (dominio.length >=3) &&
+        (usuario.search("@")==-1) &&
+        (dominio.search("@")==-1) &&
+        (usuario.search(" ")==-1) &&
+        (dominio.search(" ")==-1) &&
+        (dominio.search(".")!=-1) &&
+        (dominio.indexOf(".") >=1)&&
+        (dominio.lastIndexOf(".") < dominio.length - 1)) {
+            return true;
+        //document.getElementById("msgemail").innerHTML="E-mail válido";
+    }
+    else{
+        //document.getElementById("msgemail").innerHTML="<font color='red'>E-mail inválido </font>";
+        return false;
+    }
+}
+
 //Botões mesas
 btnMesaQuadrada.addEventListener("click", function(){
     if(!document.querySelector(".quadrada").classList.contains("selecionado")){
@@ -210,10 +234,11 @@ document.querySelector(".excluir").addEventListener("click", () =>
     iniciar()
 );
 
-//Botão enviar
-document.querySelector(".enviar").addEventListener("click", () =>
-    console.log(posCanvas)
-);
+//Botão enviar (Adicionar anexo)
+document.querySelector(".enviar a").addEventListener("click", function(e){
+    if(document.querySelector(".anexar-layout").classList.contains("hide"))
+        document.querySelector(".anexar-layout").classList.toggle("hide")
+});
 
 //Clique esquerdo
 canvas.addEventListener("click", function(e){
@@ -402,3 +427,50 @@ canvas.addEventListener("mousemove", function(e){
         elemento.move(e, posCanvas);
     }
 });
+
+//Esconder Input Text
+document.getElementById("eu-sou").addEventListener("change", function(e){
+    if(document.querySelector(".eu select").value == 5){
+        document.querySelector(".eu input").classList.remove("hide");
+    }
+    else{
+        document.querySelector(".eu input").classList.add("hide");
+    }
+});
+
+//Enviar Form
+form.addEventListener("submit", function(e){
+    var nome = document.getElementById("nome");
+    var fone = document.getElementById("fone");
+    var email = document.getElementById("email");
+    var euSou = document.getElementById("eu-sou");
+    var outro = document.getElementById("outro");
+
+    if(nome.value == ""){
+        alert("Nome não informado");
+        nome.focus;
+        return;
+    }
+    if(fone.value == ""){
+        alert("Fone não informado");
+        fone.focus;
+        return;
+    }
+    if(!validarEmail(email)){
+        alert("E-mail inválido");
+        return;
+    }
+    if(euSou.value == "0"){
+        alert('"Eu sou" não informado');
+        euSou.focus;
+        return;
+    }
+    if(euSou.value == "5" && outro.value == ""){
+        alert("Especifique quem é você");
+        outro.focus;
+        return;
+    }
+    document.getElementById("contato-form").submit();
+    log.textContent = `Formuláiro Enviado! Hora de envio: ${e.timeStamp}`;
+    alert("Obrigado sr(a) " + document.getElementById("nome").value + ", seus dados foram enviados com sucesso!");
+})

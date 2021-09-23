@@ -5,7 +5,6 @@ function Mesa(tipo, img, x, y, width, height){
     this.posY = y;
     this.width = width;
     this.height = height;
-    this.color = 'brown';
     this.selecionado = true;
     this.img = img;
 

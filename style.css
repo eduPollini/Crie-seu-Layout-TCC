@@ -2,6 +2,8 @@
 
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
+/* -=-=-=-=-=-=- Defaults -=-=-=-=-=-=- */
+
 *{
     margin: 0;
     padding: 0;
@@ -13,9 +15,15 @@
     --font-primary: "Baloo Da 2", serif;
     --font-secondary: "Josefin Slab", serif;
     --font-action: "Mulish", serif;
+
+    --verde-claro: #52c234;
+    --verde-escuro: #2d681c;
+    --marrom-claro: rgb(145, 115, 81);
+    --marrom-escuro: rgb(112, 89, 63);
 }
 
-/* Scrollbar */
+/* -=-=-=-=-=-=- Scrollbar -=-=-=-=-=-=- */
+
 body::-webkit-scrollbar {
     width: 1.2rem;
 }
@@ -24,12 +32,14 @@ body::-webkit-scrollbar-track {
     border-radius: 10px;
 }
 body::-webkit-scrollbar-thumb {
-    background: #52c234; 
+    background: var(--verde-claro); 
     border-radius: 10px;
 }
 body::-webkit-scrollbar-thumb:hover {
-    background: #2d681c; 
+    background: var(--verde-escuro); 
 }
+
+/* -=-=-=-=-=-=- Icone Hamburguer -=-=-=-=-=-=- */
 
 .hamburguer{
     width: 2rem;
@@ -75,7 +85,7 @@ body::-webkit-scrollbar-thumb:hover {
     left: 3rem;
     height: 2rem;
     width: 6rem;
-    background-color: #52c234;
+    background-color: var(--verde-claro);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -86,7 +96,7 @@ body::-webkit-scrollbar-thumb:hover {
 .hamburguer span::before{
     content: "";
     position: absolute;
-    border-right: .5rem solid #52c234;
+    border-right: .5rem solid var(--verde-claro);
     border-top: .5rem solid transparent;
     border-left: .5rem solid transparent;
     border-bottom: .5rem solid transparent;
@@ -96,6 +106,8 @@ body::-webkit-scrollbar-thumb:hover {
 .show-menu .hamburguer:hover span{
     opacity: 1;
 }
+
+/* -=-=-=-=-=-=- Header -=-=-=-=-=-=- */
 
 header{
     width: 100%;
@@ -130,15 +142,30 @@ header{
 
 .banner{
     position: absolute;
-    top: 10%;
-    left: 15%;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -45%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-img-wrapper{
+    width: 60%;
 }
 
 .banner img{
-    width: 15rem;
-    height: 15rem;
+    width: 100%;
+    height: 100%;
     opacity: 0;
-    animation: moveBanner 1s 0.3s forwards;
+    animation: moveBanner 1s 0.5s forwards;
+}
+
+.conteudo-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .banner h1{
@@ -156,33 +183,34 @@ header{
 .banner p{
     font-family: var(--font-secondary);
     color: #fff;
-    font-size: 2rem;
+    font-size: 2.5rem;
     text-shadow: .2rem .2rem rgba(0, 0, 0, 0.4);
     margin-bottom: 2rem;
     opacity: 0;
     animation: moveBanner 1s 0.7s forwards;
 }
 
-.banner button{
+.banner a{
+    justify-content: center;
     font-family: var(--font-action);
     color: #fff;
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: .1rem;
-    background: #52c234;
-    background: -webkit-linear-gradient(to right, #113b01, #52c234);  
-    background: linear-gradient(to right, #113b01, #52c234); 
+    background: var(--verde-claro);
+    background: -webkit-linear-gradient(to right, #113b01, var(--verde-claro));  
+    background: linear-gradient(to right, #113b01, var(--verde-claro)); 
     padding: 1rem 3rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     opacity: 0;
-    animation: moveBanner 1s 0.9s forwards;
+    animation: moveBanner 1s .9s forwards;
     transition: font-size .5s;
     box-shadow: .1rem .2rem .5rem rgba(0, 0, 0, 0.7);
 }
 
-.banner button:hover{
+.banner a:hover{
     font-size: 1.2rem;
 }
 
@@ -195,6 +223,8 @@ header{
         opacity: 1;
     }
 }
+
+/* -=-=-=-=-=-=- Menu Sidebar -=-=-=-=-=-=- */
 
 .sidebar{
     width: 20rem;
@@ -242,8 +272,8 @@ header{
     justify-content: space-evenly;
 }
 
-.social-media i{
-    background-color: #52c234;
+.social-media a{
+    background-color: var(--verde-claro);
     color: #fff;
     width: 2.5rem;
     height: 2.5rem;
@@ -256,9 +286,11 @@ header{
     transition: background-color .5s;
 }
 
-.social-media i:hover{
-    background-color: #2d681c;
+.social-media a:hover{
+    background-color: var(--verde-escuro);
 }
+
+/* -=-=-=-=-=-=- Body -=-=-=-=-=-=- */
 
 .sessao{
     padding-left: 15px;
@@ -272,7 +304,7 @@ header{
 }
 
 .bg-verde{
-    background-color: #52c234;
+    background-color: #8bb480;
 }
 
 .sessao-header{
@@ -285,8 +317,7 @@ header{
     font-family: var(--font-primary);
     font-size: 3rem;
     color: #474747;
-    border-bottom: solid 3px #52c234;
-    margin-top: 1.5rem;
+    border-bottom: solid 3px var(--verde-claro);
     text-shadow: .2rem .2rem .6rem rgba(0, 0, 0, 0.4);
 }
 
@@ -303,16 +334,11 @@ header{
     max-width: 65rem;
     margin-left: auto;
     margin-right: auto;
-    
-    /*
-    display: grid;
-    grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: repeat(6, 6rem);*/
 }
 
+/* -=-=-=-=-=-=- Sessão Sobre Nós -=-=-=-=-=-=- */
+
 .sobre-nos-text{
-    /* grid-column: 7 / 11;
-    grid-row: 2 / 6; */
     width: 100%;
     height: 100%;
     margin-right: 1rem;
@@ -335,6 +361,7 @@ header{
 .foto-img-wrapper{
     width: 100%;
     height: 100%;
+    
 }
 
 .foto-img-wrapper img{
@@ -342,7 +369,10 @@ header{
     width: 100%;
     height: 100%;
     border-radius: 8px;
+    box-shadow: 0 .2rem .4rem rgba(0, 0, 0, 0.6);
 }
+
+/* -=-=-=-=-=-=- Sessão Layout -=-=-=-=-=-=- */
 
 .canvas-wrapper{
     height: 37.5rem;
@@ -374,9 +404,9 @@ header{
 .menu-criacao{
     height: 37.5rem;
     width: 15rem;
-    background: #52c234;
-    background: -webkit-linear-gradient(to right, #227401, #52c234);  
-    background: linear-gradient(to right, #227401, #52c234);
+    background: var(--verde-claro);
+    background: -webkit-linear-gradient(to right, #227401, var(--verde-claro));  
+    background: linear-gradient(to right, #227401, var(--verde-claro));
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     box-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.7);
@@ -408,19 +438,19 @@ header{
     overflow-y: scroll;
 }
 
-.elementos::-webkit-scrollbar {
+.scroll-bar::-webkit-scrollbar {
     width: 1rem;
 }
-.elementos::-webkit-scrollbar-track {
+.scroll-bar::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px #555; 
     border-radius: 10px;
 }
-.elementos::-webkit-scrollbar-thumb {
-    background: rgb(145, 115, 81); 
+.scroll-bar::-webkit-scrollbar-thumb {
+    background: var(--marrom-claro); 
     border-radius: 10px;
 }
-.elementos::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(112, 89, 63); 
+.scroll-bar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--marrom-escuro); 
 }
 
 
@@ -429,10 +459,6 @@ header{
     left: .4rem;
     width: 13rem;
     display: flex;
-    /* flex-direction: row; */
-    /* justify-content: space-evenly; */
-    /* justify-content: center; */
-    /* align-items: center; */
     margin-bottom: 1rem;
 }
 
@@ -440,6 +466,8 @@ header{
     width: 4rem;
     height: 4rem;
     background-color: #888;
+    background: -webkit-linear-gradient(to right, #777, #999);  
+    background: linear-gradient(to right, #777, #999); 
     border-radius: 8px;
     box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
 }
@@ -453,7 +481,7 @@ header{
 }
 
 .qtdElemento{
-    background-color: rgb(145, 115, 81);
+    background-color: var(--marrom-claro);
     border-radius: 999px;
     padding: .1rem .5rem;
     box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
@@ -496,6 +524,10 @@ header{
     box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
     transition: background-color .5s;
 }
+
+/* .selecionar button:focus{
+    background-color: blue;
+} */
 
 .selecionado button{
     background-color: #555;
@@ -576,25 +608,188 @@ header{
     position: relative;
     bottom: -.5rem;
     right: -.5rem;
+    height: 1.5rem;
 }
 
-.enviar button{
-    height: 1.5rem;
+.btn{
     font-family: var(--font-action);
-    font-size: .8rem;
     font-weight: 500;
     letter-spacing: .1rem;
     text-transform: uppercase;
     color: #fff;
-    background-color: rgb(145, 115, 81);
+    background-color: var(--marrom-claro);
     border: none;
-    padding: 0 .3rem;
+    padding: .2rem .4rem;
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
     transition: background-color .5s;
 }
 
-.enviar button:hover{
-    background-color: rgb(112, 89, 63);
+.btn:hover{
+    background-color: var(--marrom-escuro);
+}
+
+.enviar a{
+    font-size: 1rem;
+}
+
+/* -=-=-=-=-=-=- Sessão Contato -=-=-=-=-=-=- */
+
+.maxVh{
+    height: 100vh;
+}
+
+.sessao-contato{
+    height: 80%;
+    width: 60%;
+    padding: 0;
+    box-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    position: relative;
+}
+
+.contato-img-wrapper{
+    width: 35%;
+    height: 100%;
+    background: 
+        linear-gradient(to right, rgba(82, 192, 52, 0.4), rgba(17, 59, 1, 1)), 
+        url("imagens/portal2.jpeg");
+    background-size: cover;
+    border-radius: 8px 0 0 8px;
+}
+
+.sessao-form{
+    width: 65%;
+    height: 100%;
+    background-color: #113b01;
+    border-radius: 0 8px 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+}
+
+.sessao-form form{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    position: absolute;
+    left: 0;
+}
+
+.input-group{
+    position: relative;
+}
+
+.field{
+    background: transparent;
+    border: none;
+    width: 100%;
+    font-size: 1.5rem;
+    font-family: var(--font-secondary);
+    border-bottom: 2px dashed var(--marrom-claro);
+    height: 3rem;
+    outline: none;
+    color: #eee;
+    margin: 1rem 0;
+    letter-spacing: .1rem;
+}
+
+.field-label{
+    position: absolute;
+    left: 0;
+    top: 2rem;
+    color: #eee;
+    font-size: 1.2rem;
+    font-family: var(--font-secondary);
+    text-transform: uppercase;
+    letter-spacing: .15rem;
+    cursor: text;
+    transition: all 0.3s;
+}
+
+.field:focus ~ label{
+    top: 0;
+}
+
+.field:focus{
+    border-bottom: 1px solid var(--marrom-claro);
+}
+
+.input-group select{
+    cursor: pointer;
+}
+
+.field option{
+    background-color: var(--marrom-claro);
+}
+
+.eu{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.eu .field{
+    margin: 1rem 1rem;
+}
+
+.hide{
+    display: none;
+    opacity: 0;
+}
+
+.input-group textarea{
+    padding-top: .5rem;
+    height: 5rem;
+    width: 25rem;
+    resize: none;
+}
+
+.sessao-form button{
+    width: 10rem;
+    height: 2rem;
+    font-size: 1rem;
+}
+
+.anexar-layout{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 6rem;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background-color: #888;
+    background: -webkit-linear-gradient(to right, #666, #999);  
+    background: linear-gradient(to right, #666, #999); 
+    padding: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 .2rem .5rem rgba(0, 0, 0, .7);
+    transition: all 1s;
+}
+
+.anexar-layout img{
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    margin-top: .5rem;
+}
+
+.anexar-layout label{
+    font-family: var(--font-secondary);
+    font-size: .9rem;
+    color: #eee;
+    text-transform: uppercase;
+    margin-top: .5rem;
+    background-color: #454545;
+    padding: .3rem;
+    border-radius: 8px;
+    margin-bottom: .5rem;
 }

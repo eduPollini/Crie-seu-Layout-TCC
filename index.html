@@ -26,10 +26,14 @@
                     <img src="imagens/salão.jpeg" alt="imagem fundo">
                 </div>
                 <div class="banner">
-                    <img src="imagens/logo.png" alt="logo">
-                    <h1>Sítio Refúgio dos Pássaros</h1>
-                    <p>Crie seu Layout</p>
-                    <button>Começar</button>
+                    <div class="logo-img-wrapper">
+                        <img src="imagens/logo.png" alt="logo">
+                    </div>
+                    <!-- <h1>Sítio Refúgio dos Pássaros</h1> -->
+                    <div class="conteudo-header">
+                        <p>Crie seu Layout</p>
+                        <a href="#layout">Começar</a>
+                    </div>
                 </div>
             </header>
 
@@ -38,20 +42,20 @@
                 <nav>
                     <ul class="menu">
                         <li class="menu-item"><a href="#" class="menu-link">Home</a></li>
-                        <li class="menu-item"><a href="#" class="menu-link">Sobre Nós</a></li>
-                        <li class="menu-item"><a href="#" class="menu-link">Tutorial</a></li>
-                        <li class="menu-item"><a href="#" class="menu-link">Layout</a></li>
-                        <li class="menu-item"><a href="#" class="menu-link">Contato</a></li>
+                        <li class="menu-item"><a href="#sobre-nos" class="menu-link">Sobre Nós</a></li>
+                        <li class="menu-item"><a href="#tutorial" class="menu-link">Tutorial</a></li>
+                        <li class="menu-item"><a href="#layout" class="menu-link">Layout</a></li>
+                        <li class="menu-item"><a href="#contato" class="menu-link">Contato</a></li>
                     </ul>
                 </nav>
                 <div class="social-media">
-                    <i href="#" class="fab fa-facebook-f"></i>
-                    <i href="#" class="fab fa-instagram"></i>
+                    <a href="https://www.facebook.com/sitiorefugiodospassaros" class="fab fa-facebook-f" target="_blank"></a>
+                    <a href="https://www.instagram.com/sitiorefugiodospassaros/" class="fab fa-instagram" target="_blank"></a>
                 </div>
             </aside>
 
             <!-- Sobre Nós -->
-            <section class="sessao bg-cinza">
+            <section class="sessao bg-cinza" id="sobre-nos">
                 <div class="sessao-header">
                     <h1>Sobre Nós</h1>
                 </div>
@@ -74,8 +78,8 @@
                 </div>
             </section>
 
-            <!-- Dicas -->
-            <section class="sessao bg-verde">
+            <!-- Tutorial -->
+            <section class="sessao bg-verde" id="tutorial">
                 <div class="sessao-header border-white">
                     <h1>Tutorial</h1>
                 </div>
@@ -104,7 +108,7 @@
             </section>
 
             <!-- Layout -->
-            <section class="sessao bg-cinza">
+            <section class="sessao bg-cinza" id="layout">
                 <div class="sessao-header">
                     <h1>Layout</h1>
                 </div>
@@ -120,7 +124,7 @@
                         <div class="menu-criacao-header">
                             <h3>Itens</h3>
                         </div>
-                        <div class="elementos">
+                        <div class="elementos scroll-bar">
                             <div class="elemento">
                                 <div class="elemento-img-wrapper">
                                     <img src="imagens/mesaQuadrada.png" alt="img mesa quadrada" id="imgMesaQuadrada">
@@ -230,8 +234,54 @@
                                 </div>
                             </div> -->
                             <div class="enviar">
-                                <button id="btnEnviar">Enviar</button>
+                                <a href="#contato" id="btnEnviar" class="btn">Enviar</a>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contato -->
+            <section class="sessao bg-verde maxVh" id="contato">
+                <div class="sessao-header border-white">
+                    <h1>Contato</h1>
+                </div>
+                <div class="sessao-body sessao-contato">
+                    <div class="contato-img-wrapper"></div>
+                    <div class="sessao-form">
+                        <form id="contato-form" method="get" action="mailto:dupollini003@gmail.com" target="_blank">
+                            <div class="input-group">
+                                <input type="text" class="field" id="nome">
+                                <label for="nome" class="field-label">Nome</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="tel" class="field" id="fone">
+                                <label for="fone" class="field-label">Fone</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="email" class="field" id="email">
+                                <label for="email" class="field-label">E-mail</label>
+                            </div>
+                            <div class="input-group eu">
+                                <select class="field" id="eu-sou">
+                                    <option value="0" hidden>Eu sou...</option>
+                                    <option value="1">Noivo(a)</option>
+                                    <option value="2">Cerimonialista</option>
+                                    <option value="3">Decorador(a)</option>
+                                    <option value="4">Aniversariante</option>
+                                    <option value="5">Outro</option>
+                                </select>
+                                <input type="text" class="field hide" id="outro">
+                            </div>
+                            <div class="input-group">
+                                <textarea class="field scroll-bar" id="observacao"></textarea>
+                                <label for="observacao" class="field-label">Observação</label>
+                            </div>
+                            <button type="submit" class="btn btn-submit" id="btnEnviarMsg">Enviar</button>
+                        </form>
+                        <div class="anexar-layout hide">
+                            <img src="imagens/mesaQuadrada.png" alt="img de layout anexado" id="anexar-layout-img">
+                            <label for="" class="anexar-layout-label">Layout anexado</label>
                         </div>
                     </div>
                 </div>
@@ -242,6 +292,6 @@
 
     <script type="text/javascript" src='js/script.js'></script>
     <script type="text/javascript" src='js/Mesa.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </html>
