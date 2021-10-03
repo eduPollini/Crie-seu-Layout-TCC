@@ -2,7 +2,9 @@ var canvas = document.querySelector('canvas');
 var ctx = canvas.getContext('2d');
 var posCanvas;
 var componentes = [];
-var imgPlantaBaixa =  document.getElementById("imgPlantaBaixa");
+//var imgPlantaBaixa = document.getElementById("imgPlantaBaixa");
+var imgPlantaBaixa = new Image();
+imgPlantaBaixa.src = "imagens/plantaBaixa.png";
 var imgMesaQuadrada = document.getElementById("imgMesaQuadrada");
 var imgMesaRedonda = document.getElementById("imgMesaRedonda");
 var imgMesaBolo = document.getElementById("imgMesaBolo");
@@ -13,6 +15,8 @@ var imgMesaCarretelP = document.getElementById("imgMesaCarretelP");
 var qtdMesaQuadrada, qtdMesaRedonda, qtdMesaBolo, qtdMesaBuffet, qtdMesaCarretelG, qtdMesaCarretelM, qtdMesaCarretelP, qtdConvidados;
 var elemento;
 var selecionado;
+var rotation;
+
 
 
 //Interação menu sidebar
@@ -20,14 +24,12 @@ document.querySelector(".hamburguer").addEventListener("click", () =>
     document.querySelector(".container").classList.toggle("show-menu")
 );
 
-
-
-window.onload = function(){
+window.onload = function () {
     iniciar();
     loop();
 }
 
-function iniciar(){
+function iniciar() {
     //qtdMesaQuadrada = $("#qtdMesaQuadrada").text();
     qtdMesaQuadrada = 25;
     qtdMesaRedonda = 10;
@@ -46,38 +48,62 @@ function iniciar(){
     document.querySelector("#qtdMesaCarretelM").innerHTML = qtdMesaCarretelM;
     document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
     document.querySelector("#qtdConvidados").innerHTML = qtdConvidados;
-    
+
     cancelarSelecaoBtn();
 
     selecionado = false;
 
+    rotation = 0;
+
     componentes = [];
 }
 
-function loop(){
+function loop() {
     window.requestAnimationFrame(loop, canvas);
     draw();
 }
 
-function draw(){
+function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(imgPlantaBaixa, 0, 0, 800, 600);
     posCanvas = canvas.getBoundingClientRect();
-    if(selecionado){
-        elemento.draw(ctx);
+    if (selecionado) {
+        elemento.rotateDraw(ctx);
     }
     drawComponentes();
 }
 
-function drawComponentes(){
-    if(componentes.length > 0){
-        for(var i = 0; i < componentes.length; i++){
-            componentes[i].draw(ctx);
+function drawComponentes() {
+    if (componentes.length > 0) {
+        for (var i = 0; i < componentes.length; i++) {
+            componentes[i].rotateDraw(ctx);
         }
     }
 }
 
-function cancelarSelecaoBtn(){
+function abrirWhatsApp(msg) {
+    let isMobile = (function (a) {
+        if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) {
+            return true
+        } else {
+            return false
+        }
+    })(navigator.userAgent || navigator.vendor || window.opera);
+
+    if (msg == null) {
+        msg = "";
+    }
+
+    if (isMobile) {
+        url = "https://api.whatsapp.com/send?phone=" + atob("NTUxOTk5Mjk5NzQzOQ==") + msg;
+    }
+    else {
+        url = "https://web.whatsapp.com/send?phone=" + atob("NTUxOTk5Mjk5NzQzOQ==") + msg;
+    }
+    window.open(url, '_blank').focus();
+}
+
+function cancelarSelecaoBtn() {
     document.querySelector(".quadrada").classList.remove("selecionado");
     document.querySelector(".redonda").classList.remove("selecionado");
     document.querySelector(".bolo").classList.remove("selecionado");
@@ -87,8 +113,8 @@ function cancelarSelecaoBtn(){
     document.querySelector(".carretelP").classList.remove("selecionado");
 }
 
-function addConvidado(elemento){
-    switch(elemento.tipo){
+function addConvidado(elemento) {
+    switch (elemento.tipo) {
         case 'quadrada':
         case 'redonda':
         case 'carretelG':
@@ -104,8 +130,8 @@ function addConvidado(elemento){
     document.querySelector("#qtdConvidados").innerHTML = qtdConvidados;
 }
 
-function removerConvidado(elemento){
-    switch(elemento.tipo){
+function removerConvidado(elemento) {
+    switch (elemento.tipo) {
         case 'quadrada':
         case 'redonda':
         case 'carretelG':
@@ -123,197 +149,248 @@ function removerConvidado(elemento){
 
 function validarEmail(email) {
     usuario = email.value.substring(0, email.value.indexOf("@"));
-    dominio = email.value.substring(email.value.indexOf("@")+ 1, email.value.length);
-    
-    if ((usuario.length >=1) &&
-        (dominio.length >=3) &&
-        (usuario.search("@")==-1) &&
-        (dominio.search("@")==-1) &&
-        (usuario.search(" ")==-1) &&
-        (dominio.search(" ")==-1) &&
-        (dominio.search(".")!=-1) &&
-        (dominio.indexOf(".") >=1)&&
+    dominio = email.value.substring(email.value.indexOf("@") + 1, email.value.length);
+
+    if ((usuario.length >= 1) &&
+        (dominio.length >= 3) &&
+        (usuario.search("@") == -1) &&
+        (dominio.search("@") == -1) &&
+        (usuario.search(" ") == -1) &&
+        (dominio.search(" ") == -1) &&
+        (dominio.search(".") != -1) &&
+        (dominio.indexOf(".") >= 1) &&
         (dominio.lastIndexOf(".") < dominio.length - 1)) {
-            return true;
+        return true;
         //document.getElementById("msgemail").innerHTML="E-mail válido";
     }
-    else{
+    else {
         //document.getElementById("msgemail").innerHTML="<font color='red'>E-mail inválido </font>";
         return false;
     }
 }
 
 //Botões mesas
-btnMesaQuadrada.addEventListener("click", function(){
-    if(!document.querySelector(".quadrada").classList.contains("selecionado")){
+btnMesaQuadrada.addEventListener("click", function () {
+    if (!document.querySelector(".quadrada").classList.contains("selecionado")) {
         cancelarSelecaoBtn();
         document.querySelector(".quadrada").classList.add("selecionado");
         selecionado = true;
-        elemento = new Mesa('quadrada', imgMesaQuadrada, 10,10,50,50);
+        elemento = new Mesa('quadrada', imgMesaQuadrada, 10, 10, 50, 50, rotation);
     }
-    else{
+    else {
         cancelarSelecaoBtn();
         selecionado = false;
     }
 });
-btnMesaRedonda.addEventListener("click", function(){
-    if(!document.querySelector(".redonda").classList.contains("selecionado")){
+btnMesaRedonda.addEventListener("click", function () {
+    if (!document.querySelector(".redonda").classList.contains("selecionado")) {
         cancelarSelecaoBtn();
         document.querySelector(".redonda").classList.add("selecionado");
         selecionado = true;
-        elemento = new Mesa('redonda', imgMesaRedonda, 10,10,50,50);
+        elemento = new Mesa('redonda', imgMesaRedonda, 10, 10, 50, 50, rotation);
     }
-    else{
+    else {
         cancelarSelecaoBtn();
         selecionado = false;
     }
 });
-btnMesaBolo.addEventListener("click", function(){
-    if(!document.querySelector(".bolo").classList.contains("selecionado")){
+btnMesaBolo.addEventListener("click", function () {
+    if (!document.querySelector(".bolo").classList.contains("selecionado")) {
         cancelarSelecaoBtn();
         document.querySelector(".bolo").classList.add("selecionado");
         selecionado = true;
-        elemento = new Mesa('bolo', imgMesaBolo, 10,10,60,30);
+        elemento = new Mesa('bolo', imgMesaBolo, 10, 10, 60, 30, rotation);
     }
-    else{
+    else {
         cancelarSelecaoBtn();
         selecionado = false;
     }
 });
-btnMesaBuffet.addEventListener("click", function(){
-    if(!document.querySelector(".buffet").classList.contains("selecionado")){
+btnMesaBuffet.addEventListener("click", function () {
+    if (!document.querySelector(".buffet").classList.contains("selecionado")) {
         cancelarSelecaoBtn();
         document.querySelector(".buffet").classList.add("selecionado");
         selecionado = true;
-        elemento = new Mesa('buffet', imgMesaBuffet, 10,10,50,50);
+        elemento = new Mesa('buffet', imgMesaBuffet, 10, 10, 50, 50, rotation);
     }
-    else{
+    else {
         cancelarSelecaoBtn();
         selecionado = false;
     }
 });
-btnMesaCarretelG.addEventListener("click", function(){
-    if(!document.querySelector(".carretelG").classList.contains("selecionado")){
+btnMesaCarretelG.addEventListener("click", function () {
+    if (!document.querySelector(".carretelG").classList.contains("selecionado")) {
         cancelarSelecaoBtn();
         document.querySelector(".carretelG").classList.add("selecionado");
         selecionado = true;
-        elemento = new Mesa('carretelG', imgMesaCarretelG, 10,10,50,50);
+        elemento = new Mesa('carretelG', imgMesaCarretelG, 10, 10, 50, 50, rotation);
     }
-    else{
+    else {
         cancelarSelecaoBtn();
         selecionado = false;
     }
 });
-btnMesaCarretelM.addEventListener("click", function(){
-    if(!document.querySelector(".carretelM").classList.contains("selecionado")){
+btnMesaCarretelM.addEventListener("click", function () {
+    if (!document.querySelector(".carretelM").classList.contains("selecionado")) {
         cancelarSelecaoBtn();
         document.querySelector(".carretelM").classList.add("selecionado");
         selecionado = true;
-        elemento = new Mesa('carretelM', imgMesaCarretelM, 10,10,50,50);
+        elemento = new Mesa('carretelM', imgMesaCarretelM, 10, 10, 50, 50, rotation);
     }
-    else{
+    else {
         cancelarSelecaoBtn();
         selecionado = false;
     }
 });
-btnMesaCarretelP.addEventListener("click", function(){
-    if(!document.querySelector(".carretelP").classList.contains("selecionado")){
+btnMesaCarretelP.addEventListener("click", function () {
+    if (!document.querySelector(".carretelP").classList.contains("selecionado")) {
         cancelarSelecaoBtn();
         document.querySelector(".carretelP").classList.add("selecionado");
         selecionado = true;
-        elemento = new Mesa('carretelP', imgMesaCarretelP, 10,10,50,50);
+        elemento = new Mesa('carretelP', imgMesaCarretelP, 10, 10, 50, 50, rotation);
     }
-    else{
+    else {
         cancelarSelecaoBtn();
         selecionado = false;
     }
+});
+/*
+$('.selecionar button').on('focus', function(e) {
+    e.preventDefault();
+    var id = $(this).attr('id');
+    console.log($(this));
+
+    if($(this)){
+        selecionado = true;
+        elemento = new Mesa('quadrada', imgMesaQuadrada, 10, 10, 50, 50);
+    } else{
+        selecionado = false;
+    }
+});*/
+
+//Tecla rotacionar
+document.addEventListener("keydown", (e) => {
+    switch (e.key) {
+        case "ArrowRight":
+            rotation += 45 * Math.PI / 180;
+            elemento.rotation = this.rotation;
+            break;
+        case "ArrowLeft":
+            rotation -= 45 * Math.PI / 180;
+            elemento.rotation = this.rotation;
+            break;
+    }
+});
+
+//Botão rotacionar
+document.querySelector(".rotate").addEventListener("click", () => {
+    rotation += 45 * Math.PI / 180;
+    elemento.rotation = this.rotation;
 });
 
 //Botão excluir
 document.querySelector(".excluir").addEventListener("click", () =>
-    iniciar()
+document.querySelector(".confirmarExclusao").classList.toggle("hide")
 );
 
-//Botão enviar (Adicionar anexo)
-document.querySelector(".enviar a").addEventListener("click", function(e){
-    if(document.querySelector(".anexar-layout").classList.contains("hide"))
-        document.querySelector(".anexar-layout").classList.toggle("hide")
+//Excluir confirmar
+function excluirConfirmar(){
+    iniciar();
+    document.querySelector(".confirmarExclusao").classList.add("hide");
+}
+
+//Excluir cancelar
+function excluirCancelar(){
+    document.querySelector(".confirmarExclusao").classList.add("hide");
+}
+
+//Botão download (Adicionar anexo)
+document.querySelector(".download").addEventListener("click", function (e) {
+    if (document.querySelector(".anexar-layout").classList.contains("hide"))
+        document.querySelector(".anexar-layout").classList.remove("hide")
+
+    const layout = document.createElement("a");
+    document.body.appendChild(layout);
+    layout.href = canvas.toDataURL();
+    layout.download = "layout.png";
+    layout.click();
+    document.body.removeChild(layout);
 });
 
 //Clique esquerdo
-canvas.addEventListener("click", function(e){
+canvas.addEventListener("click", function (e) {
     //Adicionar elemento
-    if(selecionado){
-        if(document.querySelector(".quadrada").classList.contains("selecionado") && qtdMesaQuadrada > 0){
+    if (selecionado) {
+        if (document.querySelector(".quadrada").classList.contains("selecionado") && qtdMesaQuadrada > 0) {
             componentes.push(elemento);
-            elemento = new Mesa('quadrada', imgMesaQuadrada, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            elemento = new Mesa('quadrada', imgMesaQuadrada, e.clientX - posCanvas.left, e.clientY - posCanvas.top, 50, 50, rotation);
             addConvidado(elemento);
             qtdMesaQuadrada--;
-            if(qtdMesaQuadrada == 0){
+            if (qtdMesaQuadrada == 0) {
                 document.querySelector(".quadrada").classList.remove("selecionado");
                 selecionado = false;
             }
             document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
         }
-        else if(document.querySelector(".redonda").classList.contains("selecionado") && qtdMesaRedonda > 0){
+        else if (document.querySelector(".redonda").classList.contains("selecionado") && qtdMesaRedonda > 0) {
             componentes.push(elemento);
-            elemento = new Mesa('redonda', imgMesaRedonda, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            elemento = new Mesa('redonda', imgMesaRedonda, e.clientX - posCanvas.left - 25, e.clientY - posCanvas.top - 25, 50, 50, rotation);
             addConvidado(elemento);
             qtdMesaRedonda--;
-            if(qtdMesaRedonda == 0){
+            if (qtdMesaRedonda == 0) {
                 document.querySelector(".redonda").classList.remove("selecionado");
                 selecionado = false;
             }
             document.querySelector("#qtdMesaRedonda").innerHTML = qtdMesaRedonda;
         }
-        else if(document.querySelector(".bolo").classList.contains("selecionado") && qtdMesaBolo > 0){
+        else if (document.querySelector(".bolo").classList.contains("selecionado") && qtdMesaBolo > 0) {
             componentes.push(elemento);
-            elemento = new Mesa('bolo', imgMesaBolo, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 60, 30);
+            elemento = new Mesa('bolo', imgMesaBolo, e.clientX - posCanvas.left, e.clientY - posCanvas.top, 60, 30, rotation);
             qtdMesaBolo--;
-            if(qtdMesaBolo == 0){
+            if (qtdMesaBolo == 0) {
                 document.querySelector(".bolo").classList.remove("selecionado");
                 selecionado = false;
             }
             document.querySelector("#qtdMesaBolo").innerHTML = qtdMesaBolo;
         }
-        else if(document.querySelector(".buffet").classList.contains("selecionado") && qtdMesaBuffet > 0){
+        else if (document.querySelector(".buffet").classList.contains("selecionado") && qtdMesaBuffet > 0) {
             componentes.push(elemento);
-            elemento = new Mesa('buffet', imgMesBuffet, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            elemento = new Mesa('buffet', imgMesaBuffet, e.clientX - posCanvas.left - 25, e.clientY - posCanvas.top - 25, 50, 50, rotation);
             qtdMesaBuffet--;
-            if(qtdMesaBuffet == 0){
+            if (qtdMesaBuffet == 0) {
                 document.querySelector(".buffet").classList.remove("selecionado");
                 selecionado = false;
             }
             document.querySelector("#qtdMesaBuffet").innerHTML = qtdMesaBuffet;
         }
-        else if(document.querySelector(".carretelG").classList.contains("selecionado") && qtdMesaCarretelG > 0){
+        else if (document.querySelector(".carretelG").classList.contains("selecionado") && qtdMesaCarretelG > 0) {
             componentes.push(elemento);
-            elemento = new Mesa('carretelG', imgMesaCarretelG, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            elemento = new Mesa('carretelG', imgMesaCarretelG, e.clientX - posCanvas.left - 25, e.clientY - posCanvas.top - 25, 50, 50, rotation);
             addConvidado(elemento);
             qtdMesaCarretelG--;
-            if(qtdMesaCarretelG == 0){
+            if (qtdMesaCarretelG == 0) {
                 document.querySelector(".carretelG").classList.remove("selecionado");
                 selecionado = false;
             }
             document.querySelector("#qtdMesaCarretelG").innerHTML = qtdMesaCarretelG;
         }
-        else if(document.querySelector(".carretelM").classList.contains("selecionado") && qtdMesaCarretelM > 0){
+        else if (document.querySelector(".carretelM").classList.contains("selecionado") && qtdMesaCarretelM > 0) {
             componentes.push(elemento);
-            elemento = new Mesa('carretelM', imgMesCarretelM, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            elemento = new Mesa('carretelM', imgMesaCarretelM, e.clientX - posCanvas.left - 25, e.clientY - posCanvas.top - 25, 50, 50, rotation);
             addConvidado(elemento);
             qtdMesaCarretelM--;
-            if(qtdMesaCarretelM == 0){
+            if (qtdMesaCarretelM == 0) {
                 document.querySelector(".carretelM").classList.remove("selecionado");
                 selecionado = false;
             }
             document.querySelector("#qtdMesaCarretelM").innerHTML = qtdMesaCarretelM;
         }
-        else if(document.querySelector(".carretelP").classList.contains("selecionado") && qtdMesaCarretelP > 0){
+        else if (document.querySelector(".carretelP").classList.contains("selecionado") && qtdMesaCarretelP > 0) {
             componentes.push(elemento);
-            elemento = new Mesa('carretelP', imgMesCarretelP, e.clientX-posCanvas.left-25, e.clientY-posCanvas.top-25, 50, 50);
+            elemento = new Mesa('carretelP', imgMesaCarretelP, e.clientX - posCanvas.left - 25, e.clientY - posCanvas.top - 25, 50, 50, rotation);
             addConvidado(elemento);
             qtdMesaCarretelP--;
-            if(qtdMesaCarretelP == 0){
+            if (qtdMesaCarretelP == 0) {
                 document.querySelector(".carretelP").classList.remove("selecionado");
                 selecionado = false;
             }
@@ -321,11 +398,18 @@ canvas.addEventListener("click", function(e){
         }
     }
     //Mover componente adicionado
-    else{
-        for(var i = 0; i < componentes.length; i++){
-            if(e.clientX-posCanvas.left >= componentes[i].posX && e.clientX-posCanvas.left <= componentes[i].posX+componentes[i].width &&
-            e.clientY-posCanvas.top >= componentes[i].posY && e.clientY-posCanvas.top <= componentes[i].posY+componentes[i].height){
-                switch(componentes[i].tipo){
+    else {
+        var xClick = e.clientX - posCanvas.left,
+            yClick = e.clientY - posCanvas.top;
+        for (var i = 0; i < componentes.length; i++) {
+            var xComp = componentes[i].posX,
+                yComp = componentes[i].posY,
+                wComp = componentes[i].width / 2,
+                hComp = componentes[i].height / 2;
+            if (xClick >= xComp - wComp && xClick <= xComp + wComp &&
+                yClick >= yComp - hComp && yClick <= yComp + hComp) {
+                rotation = componentes[i].rotation;
+                switch (componentes[i].tipo) {
                     case 'quadrada':
                         qtdMesaQuadrada++;
                         document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
@@ -364,7 +448,7 @@ canvas.addEventListener("click", function(e){
                 }
                 elemento = componentes[i];
                 removerConvidado(elemento);
-                componentes.splice(i,1);
+                componentes.splice(i, 1);
                 selecionado = true;
             }
         }
@@ -373,13 +457,19 @@ canvas.addEventListener("click", function(e){
 
 //Clique direito
 canvas.addEventListener('contextmenu', event => event.preventDefault());
-canvas.addEventListener('contextmenu', function(e) {
+canvas.addEventListener('contextmenu', function (e) {
     //Deletar elemento
-    if(!selecionado){
-        for(var i = 0; i < componentes.length; i++){
-            if(e.clientX-posCanvas.left >= componentes[i].posX && e.clientX-posCanvas.left <= componentes[i].posX+componentes[i].width &&
-            e.clientY-posCanvas.top >= componentes[i].posY && e.clientY-posCanvas.top <= componentes[i].posY+componentes[i].height){
-                switch(componentes[i].tipo){
+    if (!selecionado) {
+        var xClick = e.clientX - posCanvas.left,
+            yClick = e.clientY - posCanvas.top;
+        for (var i = 0; i < componentes.length; i++) {
+            var xComp = componentes[i].posX,
+                yComp = componentes[i].posY,
+                wComp = componentes[i].width / 2,
+                hComp = componentes[i].height / 2;
+            if (xClick >= xComp - wComp && xClick <= xComp + wComp &&
+                yClick >= yComp - hComp && yClick <= yComp + hComp) {
+                switch (componentes[i].tipo) {
                     case 'quadrada':
                         qtdMesaQuadrada++;
                         document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
@@ -410,11 +500,11 @@ canvas.addEventListener('contextmenu', function(e) {
                         break;
                 }
                 removerConvidado(componentes[i]);
-                componentes.splice(i,1);
+                componentes.splice(i, 1);
             }
         }
     }
-    else{
+    else {
         cancelarSelecaoBtn();
         selecionado = false;
 
@@ -422,55 +512,173 @@ canvas.addEventListener('contextmenu', function(e) {
 });
 
 //Mover componente
-canvas.addEventListener("mousemove", function(e){
-    if(selecionado){
+canvas.addEventListener("mousemove", function (e) {
+    if (selecionado) {
         elemento.move(e, posCanvas);
     }
 });
 
 //Esconder Input Text
-document.getElementById("eu-sou").addEventListener("change", function(e){
-    if(document.querySelector(".eu select").value == 5){
+document.getElementById("eu-sou").addEventListener("change", function (e) {
+    if (document.querySelector(".eu select").value == 5) {
         document.querySelector(".eu input").classList.remove("hide");
     }
-    else{
+    else {
         document.querySelector(".eu input").classList.add("hide");
     }
 });
 
+//Esconder Label
+document.querySelector("#nome").addEventListener("change", function (e) {
+    if (document.getElementById("nome").value != "") {
+        document.querySelector("#nome-label").classList.add("hide-opacity");
+    }
+    else {
+        document.querySelector("#nome-label").classList.remove("hide-opacity");
+    }
+});
+document.querySelector("#fone").addEventListener("change", function (e) {
+    if (document.getElementById("fone").value != "") {
+        document.querySelector("#fone-label").classList.add("hide-opacity");
+    }
+    else {
+        document.querySelector("#fone-label").classList.remove("hide-opacity");
+    }
+});
+document.querySelector("#email").addEventListener("change", function (e) {
+    if (document.getElementById("email").value != "") {
+        document.querySelector("#email-label").classList.add("hide-opacity");
+    }
+    else {
+        document.querySelector("#email-label").classList.remove("hide-opacity");
+    }
+});
+document.querySelector("#observacao").addEventListener("change", function (e) {
+    if (document.getElementById("observacao").value != "") {
+        document.querySelector("#observacao-label").classList.add("hide-opacity");
+    }
+    else {
+        document.querySelector("#observacao-label").classList.remove("hide-opacity");
+    }
+});
+/*
+let imgInput = document.getElementById('imgInput');
+    imgInput.addEventListener('change', function(e) {
+      if(e.target.files) {
+        let imageFile = e.target.files[0]; //here we get the image file
+        var reader = new FileReader();
+        reader.readAsDataURL(imageFile);
+        reader.onloadend = function (e) {
+          var myImage = new Image(); // Creates image object
+          myImage.src = e.target.result; // Assigns converted image to image object
+          myImage.onload = function(ev) {
+            ctx.drawImage(myImage,0,0); // Draws the image on canvas
+            let imgData = canvas.toDataURL("image/jpeg",0.75); // Assigns image base64 string in jpeg format to a variable
+          }
+        }
+      }
+    });
+*/
+
 //Enviar Form
-form.addEventListener("submit", function(e){
+function sendEmail() {
     var nome = document.getElementById("nome");
     var fone = document.getElementById("fone");
     var email = document.getElementById("email");
     var euSou = document.getElementById("eu-sou");
     var outro = document.getElementById("outro");
+    var observacao = document.getElementById("observacao");
 
-    if(nome.value == ""){
+    if (nome.value == "") {
         alert("Nome não informado");
-        nome.focus;
         return;
     }
-    if(fone.value == ""){
+    if (fone.value == "") {
         alert("Fone não informado");
-        fone.focus;
+        //fone.focus;
         return;
     }
-    if(!validarEmail(email)){
+    if (!validarEmail(email)) {
         alert("E-mail inválido");
+        //email.focus;
         return;
     }
-    if(euSou.value == "0"){
+    if (euSou.value == "0") {
         alert('"Eu sou" não informado');
-        euSou.focus;
+        //euSou.focus;
         return;
     }
-    if(euSou.value == "5" && outro.value == ""){
+    if (euSou.value == "5" && outro.value == "") {
         alert("Especifique quem é você");
-        outro.focus;
+        //outro.focus;
         return;
     }
-    document.getElementById("contato-form").submit();
-    log.textContent = `Formuláiro Enviado! Hora de envio: ${e.timeStamp}`;
-    alert("Obrigado sr(a) " + document.getElementById("nome").value + ", seus dados foram enviados com sucesso!");
-})
+
+    var sou;
+    if (euSou.value == 5) {
+        sou = outro.value;
+    }
+    else {
+        sou = $('#eu-sou :selected').text();
+    }
+
+    var msg = "&text="
+        + "Nome: " + nome.value + "%0a"
+        + "Fone: " + fone.value + "%0a"
+        + "E-mail: " + email.value + "%0a"
+        + "Eu sou: " + sou + "%0a"
+        + "Convidados: " + qtdConvidados + "<br/>"
+        + "Observação: " + observacao.value + "%0a" + canvas;
+
+    //abrirWhatsApp(msg);
+
+    /*
+    var imgLayout = document.createElement("img");
+    var url;
+    canvas.toBlob(function (blob) {
+        url = URL.createObjectURL(blob);
+
+        imgLayout.onload = function () {
+            URL.revokeObjectURL(url);
+        };
+
+        imgLayout.src = url;
+        document.body.appendChild(imgLayout);
+        console.log(imgLayout);
+    });*/
+
+
+    console.log("5.2");
+    //console.log(imgLayout.src);
+    //console.log(canvas.toDataURL())
+
+    dataUrl = canvas.toDataURL();
+
+    Email.send({
+        Host: "smtp.gmail.com",
+        Username: atob("c3JwZm9ybWNvbnRhdG9AZ21haWwuY29t"),
+        Password: atob("U1JQQzBudEB0MA=="),
+        To: atob("c3JwZm9ybWNvbnRhdG9AZ21haWwuY29t"),
+        From: atob("c3JwZm9ybWNvbnRhdG9AZ21haWwuY29t"),
+        Subject: "Novo Layout Criado",
+        Body: "Nome: " + nome.value + "<br/>"
+            + "Fone: " + fone.value + "<br/>"
+            + "E-mail: " + email.value + "<br/>"
+            + "Eu sou: " + sou + "<br/>"
+            + "Convidados: " + qtdConvidados + "<br/>"
+            + "Observação: " + observacao.value + "<br/>"
+            + dataUrl
+    })
+        .then(function (message) {
+            alert("Obrigado sr(a) " + nome.value + ", seus dados foram enviados com sucesso!");
+        });
+
+    var urlEmail = "mailto:epollini01@gmail.com?Subject=Novo%20Layout&Body="
+        + "Nome: " + nome.value + "%0a"
+        + "Fone: " + fone.value + "%0a"
+        + "E-mail: " + email.value + "%0a"
+        + "Eu sou: " + sou + "%0a"
+        + "Observação: " + observacao.value + "%0a"
+        + "Criei meu layout customizado: ";
+
+}

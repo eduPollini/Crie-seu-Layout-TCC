@@ -4,11 +4,13 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <link rel="stylesheet" href="style.css">
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
         <link rel="manifest" href="/site.webmanifest">
+
         <title>Crie seu Layout</title>
         
     </head>
@@ -43,7 +45,7 @@
                     <ul class="menu">
                         <li class="menu-item"><a href="#" class="menu-link">Home</a></li>
                         <li class="menu-item"><a href="#sobre-nos" class="menu-link">Sobre Nós</a></li>
-                        <li class="menu-item"><a href="#tutorial" class="menu-link">Tutorial</a></li>
+                        <li class="menu-item"><a href="#tutorial" class="menu-link">Dicas</a></li>
                         <li class="menu-item"><a href="#layout" class="menu-link">Layout</a></li>
                         <li class="menu-item"><a href="#contato" class="menu-link">Contato</a></li>
                     </ul>
@@ -51,6 +53,7 @@
                 <div class="social-media">
                     <a href="https://www.facebook.com/sitiorefugiodospassaros" class="fab fa-facebook-f" target="_blank"></a>
                     <a href="https://www.instagram.com/sitiorefugiodospassaros/" class="fab fa-instagram" target="_blank"></a>
+                    <a href="" class="fab fa-whatsapp" target="_blank" onclick="abrirWhatsApp()"></a>
                 </div>
             </aside>
 
@@ -78,31 +81,102 @@
                 </div>
             </section>
 
-            <!-- Tutorial -->
+            <!-- Dicas -->
             <section class="sessao bg-verde" id="tutorial">
                 <div class="sessao-header border-white">
-                    <h1>Tutorial</h1>
+                    <h1>Dicas</h1>
                 </div>
-                <div class="sessao-body">
+                <div class="sessao-body dicas">
                     <div class="dica">
-                        <h3></h3>
-                        <i class="fab"></i>
-                        <p></p>
+                        <div class="dica-header">
+                            <i class="fas fa-hand-pointer"></i>
+                            <h3>Selecionar</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Clique no botão <b>selecionar</b>, para escolher o tipo de item ao lado.</p>
+                        </div>
                     </div>
                     <div class="dica">
-                        <h3></h3>
-                        <i class="fab"></i>
-                        <p></p>
+                        <div class="dica-header">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                            <h3>Mover</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Clique com o botão <b>esquerdo</b> do mouse, em um dos itens já posicionados, para movê-lo.</p>
+                        </div>
                     </div>
                     <div class="dica">
-                        <h3></h3>
-                        <i class="fab"></i>
-                        <p></p>
+                        <div class="dica-header">
+                            <i class="fas fa-ban"></i>
+                            <h3>Cancelar</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Clique com o botão <b>direito</b> do mouse, enquanto entiver com um item selecionado, para cancelar a seleção.</p>
+                        </div>
                     </div>
                     <div class="dica">
-                        <h3></h3>
-                        <i class="fab"></i>
-                        <p></p>
+                        <div class="dica-header">
+                            <i class="fas fa-eraser"></i>
+                            <h3>Apagar</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Clique com o botão <b>direito</b> do mouse, em um dos itens já posicionados, para movê-lo.</p>
+                        </div>
+                    </div>
+                    <div class="dica">
+                        <div class="dica-header">
+                            <i class="fas fa-image"></i>
+                            <h3>Ver Foto</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Coloque o cursor sobre a imagem de um dos itens, no menu de itens, para vizualisar sua imagem real.</p>
+                        </div>
+                    </div>
+                    <div class="dica">
+                        <div class="dica-header">
+                            <i class="fas fa-sync-alt"></i>
+                            <h3>Rotacionar</h3>
+                        </div>
+                        <div class="dica-body">
+                            <!-- <p>Clique nas <b>setas</b> para rotacionar os itens que serão inseridos.</p> -->
+                            <p>Clique no botão <i class="fas fa-sync-alt"></i>, para rotacionar os itens que serão inseridos. Ou então utilize as teclas <i class="far fa-caret-square-left"></i> e <i class="far fa-caret-square-right"></i>.</p>
+                        </div>
+                    </div>
+                    <div class="dica">
+                        <div class="dica-header">
+                            <i class="fas fa-trash"></i>
+                            <h3>Recomeçar</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Clique no botão <i class="fas fa-trash"></i>, e depois em <b>confirmar</b>, para apagar todos os itens posicionados.</p>
+                        </div>
+                    </div>
+                    <div class="dica">
+                        <div class="dica-header">
+                            <i class="fas fa-arrow-alt-circle-down"></i>
+                            <h3>Baixar</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Clique no botão <b>download</b>, para baixar o layout como imagem (.png). Você será redirecionado para o formulário de contato.</p>
+                        </div>
+                    </div>
+                    <div class="dica">
+                        <div class="dica-header">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Enviar</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Clique no botão <b>enviar</b>, para mandar seus dados via WhatsApp, lembre-se de anexar seu layout.</p>
+                        </div>
+                    </div>
+                    <div class="dica">
+                        <div class="dica-header">
+                            <i class="fas fa-paperclip"></i>
+                            <h3>Anexar</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Após ser redirecionado para o WhatsApp, clique no botão <i class="fas fa-paperclip"></i>, depois em <b>fotos e vídeos</b> e então escolha a imagem do layout.</b></p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -114,10 +188,10 @@
                 </div>
                 <div class="sessao-body">
                     <div class="canvas-wrapper">
+                        <!-- <div class="plantaBaixa-img-wrapper">
+                            <img src="imagens/plantaBaixa.png" alt="img planta baixa" id="imgPlantaBaixa">
+                        </div> -->
                         <canvas width="800px" height="600px">
-                            <div class="plantaBaixa-img-wrapper">
-                                <img src="imagens/plantaBaixa.png" alt="img planta baixa" id="imgPlantaBaixa">
-                            </div>
                         </canvas>
                     </div>
                     <div class="menu-criacao">
@@ -132,8 +206,8 @@
                                 <div class="qtdElemento">
                                     <h4 id="qtdMesaQuadrada">25</h4>
                                 </div>
-                                <div class="selecionar quadrada" title="lçkj">
-                                    <button id="btnMesaQuadrada">Selecionar</button>
+                                <div class="selecionar quadrada">
+                                    <button class="select" id="btnMesaQuadrada">Selecionar</button>
                                 </div>
                             </div>
                             <div class="elemento">
@@ -144,7 +218,7 @@
                                     <h4 id="qtdMesaRedonda">10</h4>
                                 </div>
                                 <div class="selecionar redonda">
-                                    <button id="btnMesaRedonda">Selecionar</button>
+                                    <button class="select" id="btnMesaRedonda">Selecionar</button>
                                 </div>
                             </div>
                             <div class="elemento">
@@ -155,7 +229,7 @@
                                     <h4 id="qtdMesaBolo">2</h4>
                                 </div>
                                 <div class="selecionar bolo">
-                                    <button id="btnMesaBolo">Selecionar</button>
+                                    <button class="select" id="btnMesaBolo">Selecionar</button>
                                 </div>
                             </div>
                             <div class="elemento">
@@ -166,7 +240,7 @@
                                     <h4 id="qtdMesaBuffet">2</h4>
                                 </div>
                                 <div class="selecionar buffet">
-                                    <button id="btnMesaBuffet">Selecionar</button>
+                                    <button class="select" id="btnMesaBuffet">Selecionar</button>
                                 </div>
                             </div>
                             <div class="elemento">
@@ -177,7 +251,7 @@
                                     <h4 id="qtdMesaCarretelG">3</h4>
                                 </div>
                                 <div class="selecionar carretelG">
-                                    <button id="btnMesaCarretelG">Selecionar</button>
+                                    <button class="select" id="btnMesaCarretelG">Selecionar</button>
                                 </div>
                             </div>
                             <div class="elemento">
@@ -188,7 +262,7 @@
                                     <h4 id="qtdMesaCarretelM">7</h4>
                                 </div>
                                 <div class="selecionar carretelM">
-                                    <button id="btnMesaCarretelM">Selecionar</button>
+                                    <button class="select" id="btnMesaCarretelM">Selecionar</button>
                                 </div>
                             </div>
                             <div class="elemento">
@@ -199,11 +273,29 @@
                                     <h4 id="qtdMesaCarretelP">1</h4>
                                 </div>
                                 <div class="selecionar carretelP">
-                                    <button id="btnMesaCarretelP">Selecionar</button>
+                                    <button class="select" id="btnMesaCarretelP">Selecionar</button>
                                 </div>
                             </div>
                         </div>
                         <div class="rodape">
+                            <div class="tools">
+                                <h4>Ferramentas</h4>
+                                <div class="rotate" title="Rotacionar item">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <div class="excluir" title="Excluir layout">
+                                    <i class="fas fa-trash"></i>
+                                </div>
+                            </div>
+                            <div class="confirmarExclusao hide">
+                                <p>Deseja excluir o layout e recomeçar?</p>
+                                <div class="confirmar">
+                                    <button class="btn" id="confirmar" onclick="excluirConfirmar()">Confirmar</button>
+                                </div>
+                                <div class="cancelar">
+                                    <button class="btn" id="cancelar" onclick="excluirCancelar()">Cancelar</button>
+                                </div>
+                            </div>
                             <div class="convidados">
                                 <div class="icone">
                                     <i class="fas fa-users"></i>
@@ -212,30 +304,7 @@
                                     <h4 id="qtdConvidados">0</h4>
                                 </div>
                             </div>
-                            <!-- <div class="confirmarExclusao">
-                                <p>Deseja excluir o layout?</p>
-                                <div class="confirmar">
-                                    <button id="confirmar">Confirmar</button>
-                                </div>
-                                <div class="cancelar">
-                                    <button id="cancelar"></button>
-                                </div>
-                            </div> -->
-                            <div class="excluir">
-                                <i class="fas fa-trash"></i>
-                            </div>
-                            <!-- <div class="confirmarEnvio">
-                                <p>Deseja enviar o layout?</p>
-                                <div class="confirmar">
-                                    <button id="confirmar">Confirmar</button>
-                                </div>
-                                <div class="cancelar">
-                                    <button id="cancelar"></button>
-                                </div>
-                            </div> -->
-                            <div class="enviar">
-                                <a href="#contato" id="btnEnviar" class="btn">Enviar</a>
-                            </div>
+                            <a class="btn download" href="#contato" id="btnDownload" title="Baixar imagem para seu dispositivo"><i class="fas fa-arrow-down"></i>Baixar</a>
                         </div>
                     </div>
                 </div>
@@ -249,20 +318,20 @@
                 <div class="sessao-body sessao-contato">
                     <div class="contato-img-wrapper"></div>
                     <div class="sessao-form">
-                        <form id="contato-form" method="get" action="" target="_blank">
+                        <form id="contato-form" method="post">
                             <input type="hidden" name="Assunto" value="Novo Layout">
                             <input type="hidden" name="Corpo" value="Novo Layout">
                             <div class="input-group">
-                                <input type="text" class="field" id="nome">
-                                <label for="nome" class="field-label">Nome</label>
+                                <input type="text" class="field" id="nome" value="Eduardo">
+                                <label for="nome" class="field-label" id="nome-label">Nome</label>
                             </div>
                             <div class="input-group">
-                                <input type="tel" class="field" id="fone">
-                                <label for="fone" class="field-label">Fone</label>
+                                <input type="tel" class="field" id="fone" value="12345">
+                                <label for="fone" class="field-label" id="fone-label">Fone</label>
                             </div>
                             <div class="input-group">
-                                <input type="email" class="field" id="email">
-                                <label for="email" class="field-label">E-mail</label>
+                                <input type="email" class="field" id="email" value="edu@gmail.com">
+                                <label for="email" class="field-label" id="email-label">E-mail</label>
                             </div>
                             <div class="input-group eu">
                                 <select class="field" id="eu-sou">
@@ -271,29 +340,34 @@
                                     <option value="2">Cerimonialista</option>
                                     <option value="3">Decorador(a)</option>
                                     <option value="4">Aniversariante</option>
-                                    <option value="5">Outro</option>
+                                    <option value="5">Personalizar</option>
                                 </select>
                                 <input type="text" class="field hide" id="outro">
                             </div>
                             <div class="input-group">
                                 <textarea class="field scroll-bar" id="observacao"></textarea>
-                                <label for="observacao" class="field-label">Observação</label>
+                                <label for="observacao" class="field-label" id="observacao-label">Observação</label>
                             </div>
-                            <button type="submit" class="btn btn-submit" id="btnEnviarMsg">Enviar</button>
+                            <div class="input-group">
+                                <input type="button" class="btn btn-submit" id="btnEnviarMsg" value="Enviar" onclick="sendEmail()">
+                            </div>
                         </form>
                         <div class="anexar-layout hide">
                             <img src="imagens/mesaQuadrada.png" alt="img de layout anexado" id="anexar-layout-img">
                             <label for="" class="anexar-layout-label">Layout anexado</label>
                         </div>
+                        <div class="hide">
+                            
+                        </div>
                     </div>
                 </div>
             </section>
         </div>
-        
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="https://smtpjs.com/v3/smtp.js"></script>
+        <script type="text/javascript" src='js/Mesa.js'></script>
+        <script type="text/javascript" src='js/script.js'></script>
     </body>
-
-    <script type="text/javascript" src='js/script.js'></script>
-    <script type="text/javascript" src='js/Mesa.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 </html>
