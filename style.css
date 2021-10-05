@@ -26,6 +26,14 @@ html{
     --marrom-escuro: rgb(100, 82, 61);
 }
 
+.move{
+    cursor: move;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
 /* -=-=-=-=-=-=- Scrollbar -=-=-=-=-=-=- */
 
 body::-webkit-scrollbar {
@@ -332,7 +340,7 @@ header{
 .sessao-body{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     padding: 20px 100px 100px 100px;
     max-width: 65rem;
@@ -495,6 +503,11 @@ header{
 
 /* -=-=-=-=-=-=- Sessão Layout -=-=-=-=-=-=- */
 
+.sessao-layout{
+    padding: 0;
+    margin: 0;
+}
+
 .btn{
     font-family: var(--font-action);
     font-weight: 500;
@@ -514,14 +527,15 @@ header{
     background-color: var(--marrom-escuro);
 }
 
-
 .canvas-wrapper{
-    height: 37.5rem;
-    width: 50rem;
+    height: 39rem;
+    width: 45rem;
     border: 1px #555 solid;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     box-shadow: 0 .2rem .5rem rgba(0, 0, 0, 0.7);
+
+    position: relative;
 }
 
 .canvas-wrapper canvas{
@@ -531,19 +545,44 @@ header{
     border-bottom-left-radius: 8px;
 }
 
-.plantaBaixa-img-Wrapper{
-    width: 50rem;
-    height: 37.5rem;
+.nameCustomArea{
+    background-color: #888;
+    background: -webkit-linear-gradient(to right, #777, #999);  
+    background: linear-gradient(to right, #777, #999); 
+    padding: .5rem;
+    border-radius: 8px;
+    box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
+    height: 6.5rem;
+    width: 14rem;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
 }
 
-.plantaBaixa-img-Wrapper img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.textEntry{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.textEntry p{
+    font-family: var(--font-secondary);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.textEntry input{
+    font-family: var(--font-secondary);
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .menu-criacao{
-    height: 37.5rem;
+    height: 39rem;
     width: 15rem;
     background: var(--verde-claro);
     background: -webkit-linear-gradient(to right, #227401, var(--verde-claro));  
@@ -573,8 +612,7 @@ header{
 .elementos{
     position: relative;
     top: 1rem;
-    /* height: 29rem; */
-    height: 25rem;
+    height: 26rem;
     width: 14.8rem;
     display: flex;
     flex-direction: column;
@@ -718,51 +756,57 @@ header{
     background-color: var(--verde-escuro);
     padding: .2rem;
     border-radius: 8px;
-    text-shadow: .1rem .2rem .4rem rgba(0, 0, 0, 0.7);
+    text-shadow: .1rem .1rem .1rem rgba(0, 0, 0, 0.8);
 
     position: absolute;
     top: -.8rem;
+}
+
+.tools div{
+    background-color: #555;
+    border-radius: 999px;
+    box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition: background-color .5s;
+    z-index: 1;
+    padding: .4rem .5rem;
+}
+
+.tools div:hover{
+    background-color: #333;
+}
+
+.tools .selecionado{
+    background-color: #333;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
 .rotate{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #555;
-    border-radius: 999px;
-    padding: .4rem;
-    box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-    transition: background-color .5s;
-
-    z-index: 1;
-}
-
-.rotate:hover{
-    background-color: #333;
+    padding: .36rem;
 }
 
 .rotate i{
     font-size: 1.6rem;
 }
 
-.excluir{
-    padding: .3rem .5rem;
-    border-radius: 999px;
-    background-color: #555;
-    cursor: pointer;
-    box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
-    transition: background-color .5s;
-    
-    z-index: 1;
-}
-
-.excluir:hover{
+.numeroItem{
+    font-family: var(--font-action);
+    font-size: 1rem;
+    color: #eee;
     background-color: #333;
+    padding: .3rem;
+    border-radius: 999px;
+
+    position: absolute;
 }
 
 .confirmarExclusao{
     background-color: #888;
+    background: -webkit-linear-gradient(to right, #777, #999);  
+    background: linear-gradient(to right, #777, #999); 
     padding: .5rem;
     border-radius: 8px;
     box-shadow: 0 .1rem .5rem rgba(0, 0, 0, 0.7);
@@ -841,7 +885,7 @@ header{
 }
 
 .download i{
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #fff;
 }
 

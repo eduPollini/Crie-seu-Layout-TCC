@@ -1,5 +1,6 @@
 function Mesa(tipo, img, x, y, width, height, rotation) {
     //Atributos
+    this.id = 0;
     this.tipo = tipo;
     this.posX = x;
     this.posY = y;
@@ -15,11 +16,23 @@ function Mesa(tipo, img, x, y, width, height, rotation) {
         this.posX = e.clientX - posCanvas.left;
         this.posY = e.clientY - posCanvas.top;
     }
-    this.rotateDraw = function(context) {
-        context.translate(this.posX, this.posY);
-        context.rotate(this.rotation);
-        context.drawImage(this.img, this.width-this.width*1.5, this.height-this.height*1.5, this.width, this.height);
-        context.rotate(-this.rotation);
-        context.translate(-this.posX, -this.posY);
+    this.drawItem = function(ctx) {
+        ctx.translate(this.posX, this.posY);
+        ctx.rotate(this.rotation);
+        ctx.drawImage(this.img, -this.width/2, -this.height/2, this.width, this.height);
+        ctx.rotate(-this.rotation);
+        ctx.translate(-this.posX, -this.posY);
+    }
+    this.drawNumero = function(ctx){
+        ctx.beginPath();
+        ctx.fillStyle = "#555";
+        ctx.arc(this.posX, this.posY-1, 11, 0, 2*Math.PI);
+        ctx.fill();
+        
+        ctx.font = "16px Mulish";
+        ctx.fillStyle = "#eee";
+        ctx.fillText(this.id, this.posX, this.posY);
+        ctx.textAlign='center';
+        ctx.textBaseline='middle';
     }
 }
