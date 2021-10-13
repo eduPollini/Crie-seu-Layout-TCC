@@ -11,7 +11,6 @@ function Mesa(tipo, img, x, y, width, height, rotation) {
     this.rotation = rotation;
 
     //Métodos
-    //this.draw = function (ctx) {ctx.drawImage(this.img, this.posX, this.posY, this.width, this.height);}
     this.move = function (e, posCanvas) {
         this.posX = e.clientX - posCanvas.left;
         this.posY = e.clientY - posCanvas.top;
@@ -24,12 +23,14 @@ function Mesa(tipo, img, x, y, width, height, rotation) {
         ctx.translate(-this.posX, -this.posY);
     }
     this.drawNumero = function(ctx){
+        //Circle
         ctx.beginPath();
         ctx.fillStyle = "#555";
-        ctx.arc(this.posX, this.posY-1, 11, 0, 2*Math.PI);
+        ctx.arc(this.posX, this.posY-1, 15, 0, 2*Math.PI);
         ctx.fill();
         
-        ctx.font = "16px Mulish";
+        //Number
+        ctx.font = "20px Sans-serif";
         ctx.fillStyle = "#eee";
         ctx.fillText(this.id, this.posX, this.posY);
         ctx.textAlign='center';

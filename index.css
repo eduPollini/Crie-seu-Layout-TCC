@@ -163,7 +163,7 @@ header{
 }
 
 .logo-img-wrapper{
-    width: 60%;
+    width: 25rem;
 }
 
 .banner img{
@@ -178,9 +178,11 @@ header{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 25rem;
+    
 }
 
-.banner h1{
+.conteudo-header h1{
     color: #fff;
     font-size: 3.5em;
     font-family: var(--font-primary);
@@ -192,7 +194,7 @@ header{
     animation: moveBanner 1s 0.5s forwards;
 }
 
-.banner p{
+.conteudo-header p{
     font-family: var(--font-secondary);
     color: #fff;
     font-size: 2.5rem;

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="mapping.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <title>Mapeamento</title>
+</head>
+
+<body>
+    <div class="mapping-container">
+        <div class="menu-criacao">
+            <div class="menu-criacao-header">
+                <h3>Itens</h3>
+            </div>
+            <div class="elementos scroll-bar">
+                <div class="elemento">
+                    <div class="elemento-img-wrapper">
+                        <img src="imagens/mesaQuadrada.png" alt="img mesa quadrada" id="imgMesaQuadrada">
+                    </div>
+                    <div class="qtdElemento">
+                        <p id="qtdMesaQuadrada">25</p>
+                    </div>
+                    <div class="selecionar quadrada">
+                        <button class="select" id="btnMesaQuadrada">Selecionar</button>
+                    </div>
+                </div>
+                <div class="elemento">
+                    <div class="elemento-img-wrapper">
+                        <img src="imagens/mesaRedonda.png" alt="img mesa Redonda" id="imgMesaRedonda">
+                    </div>
+                    <div class="qtdElemento">
+                        <p id="qtdMesaRedonda">10</p>
+                    </div>
+                    <div class="selecionar redonda">
+                        <button class="select" id="btnMesaRedonda">Selecionar</button>
+                    </div>
+                </div>
+                <div class="elemento">
+                    <div class="elemento-img-wrapper">
+                        <img src="imagens/mesaBolo.png" alt="img mesa bolo" id="imgMesaBolo">
+                    </div>
+                    <div class="qtdElemento">
+                        <p id="qtdMesaBolo">2</p>
+                    </div>
+                    <div class="selecionar bolo">
+                        <button class="select" id="btnMesaBolo">Selecionar</button>
+                    </div>
+                </div>
+                <div class="elemento">
+                    <div class="elemento-img-wrapper">
+                        <img src="imagens/mesaBuffet.png" alt="img mesa do buffet" id="imgMesaBuffet">
+                    </div>
+                    <div class="qtdElemento">
+                        <p id="qtdMesaBuffet">2</p>
+                    </div>
+                    <div class="selecionar buffet">
+                        <button class="select" id="btnMesaBuffet">Selecionar</button>
+                    </div>
+                </div>
+                <div class="elemento">
+                    <div class="elemento-img-wrapper">
+                        <img src="imagens/mesaCarretelG.png" alt="img mesa de carretel grande" id="imgMesaCarretelG">
+                    </div>
+                    <div class="qtdElemento">
+                        <p id="qtdMesaCarretelG">3</p>
+                    </div>
+                    <div class="selecionar carretelG">
+                        <button class="select" id="btnMesaCarretelG">Selecionar</button>
+                    </div>
+                </div>
+                <div class="elemento">
+                    <div class="elemento-img-wrapper">
+                        <img src="imagens/mesaCarretelG.png" alt="img mesa de carretel Media" id="imgMesaCarretelM">
+                    </div>
+                    <div class="qtdElemento">
+                        <p id="qtdMesaCarretelM">7</p>
+                    </div>
+                    <div class="selecionar carretelM">
+                        <button class="select" id="btnMesaCarretelM">Selecionar</button>
+                    </div>
+                </div>
+                <div class="elemento">
+                    <div class="elemento-img-wrapper">
+                        <img src="imagens/mesaCarretelG.png" alt="img mesa de carretel pequena" id="imgMesaCarretelP">
+                    </div>
+                    <div class="qtdElemento">
+                        <p id="qtdMesaCarretelP">1</p>
+                    </div>
+                    <div class="selecionar carretelP">
+                        <button class="select" id="btnMesaCarretelP">Selecionar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="rodape">
+                <div class="tools">
+                    <p>Ferramentas</p>
+                    <div class="rotate" title="Rotacionar item (R)">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="numerar" title="Numerar item">
+                        <i class="fas fa-sort-numeric-up-alt"></i>
+                    </div>
+                    <div class="customArea" title="Criar área personalizada">
+                        <i class="fas fa-crop-alt"></i>
+                    </div>
+                    <div class="line" title="Desenhar linha reta">
+                        <i class="fas fa-pencil-ruler"></i>
+                    </div>
+                    <div class="wall" title="Desenhar parede">
+                        <i class="fas fa-grip-lines"></i>
+                    </div>
+                    <div class="excluir" title="Excluir mapeamento">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </div>
+                <div class="confirmarExclusao confirmation hide">
+                    <p>Deseja excluir o mapeamento e recomeçar?</p>
+                    <div class="confirmar">
+                        <button class="btn" id="deleteConfirm" onclick="excluirConfirmar()">Confirmar</button>
+                        <button class="btn" onclick="excluirCancelar()">Cancelar</button>
+                    </div>
+                </div>
+                <label class="label-toggle-dimensions">Mostrar medidas
+                    <input type="checkbox" checked="checked" id="show-dimensions" onclick="toggleDimensions()">
+                    <span class="checkmark"></span>
+                </label>
+                <div class="last-row">
+                    <div class="convidados" title="Convidados">
+                        <div class="icone">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="qtdConvidados">
+                            <p id="qtdConvidados">0</p>
+                        </div>
+                    </div>
+                    <a class="btn download" href="index.html#contato" target="_blank" id="btnDownload" title="Baixar imagem para seu dispositivo"><i class="fas fa-download"></i>Baixar</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nameCustomArea confirmation hide">
+            <div class="textEntry">
+                <p>De um nome à sua área personalizada.</p>
+                <input type="text" id="customAreaName">
+            </div>
+            <div class="confirmar">
+                <button class="btn" id="nameConfirm" onclick="nameConfirm()">Confirmar</button>
+                <button class="btn" onclick="nameCancel()">Cancelar</button>
+            </div>
+        </div>
+        <div id="scroll-container" class="scroll-bar">
+            <canvas id="canvas"></canvas>
+            <!-- <div id="large-container">
+                <div id="container">
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/konva@8.2.2/konva.min.js"></script>
+    <script type="text/javascript" src="js/mapping.js"></script>
+    <script type="text/javascript" src='js/item.js'></script>
+    <script type="text/javascript" src='js/line.js'></script>
+    <script type="text/javascript" src='js/customArea.js'></script>
+    <script type="text/javascript" src='js/wall.js'></script>
+</body>
+
+</html>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="index.css">
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -31,10 +31,9 @@
                     <div class="logo-img-wrapper">
                         <img src="imagens/logo.png" alt="logo">
                     </div>
-                    <!-- <h1>Sítio Refúgio dos Pássaros</h1> -->
                     <div class="conteudo-header">
-                        <p>Crie seu Layout</p>
-                        <a href="#layout">Começar</a>
+                        <p>Crie seu Mapeamento</p>
+                        <a href="mapping.html" target="_blank">Começar</a>
                     </div>
                 </div>
             </header>
@@ -46,7 +45,7 @@
                         <li class="menu-item"><a href="#" class="menu-link">Home</a></li>
                         <li class="menu-item"><a href="#sobre-nos" class="menu-link">Sobre Nós</a></li>
                         <li class="menu-item"><a href="#tutorial" class="menu-link">Dicas</a></li>
-                        <li class="menu-item"><a href="#layout" class="menu-link">Layout</a></li>
+                        <li class="menu-item"><a href="#layout" class="menu-link">Mapeamento</a></li>
                         <li class="menu-item"><a href="#contato" class="menu-link">Contato</a></li>
                     </ul>
                 </nav>
@@ -144,6 +143,15 @@
                     </div>
                     <div class="dica">
                         <div class="dica-header">
+                            <i class="fas fa-sort-numeric-up-alt"></i>
+                            <h3>Numerar</h3>
+                        </div>
+                        <div class="dica-body">
+                            <p>Os itens podem ser numerados, selecionando no botão <i class="fas fa-sort-numeric-up-alt"></i>. Para insererir um número utilize o clique <b>esquerdo</b>, já para remover, o clique <b>direito</b>.</p>
+                        </div>
+                    </div>
+                    <div class="dica">
+                        <div class="dica-header">
                             <i class="fas fa-trash"></i>
                             <h3>Recomeçar</h3>
                         </div>
@@ -157,7 +165,7 @@
                             <h3>Baixar</h3>
                         </div>
                         <div class="dica-body">
-                            <p>Clique no botão <b>download</b>, para baixar o layout como imagem (.png). Você será redirecionado para o formulário de contato.</p>
+                            <p>Clique no botão <b>download</b>, para baixar o mapeamento como imagem (.png). Você será redirecionado para o formulário de contato.</p>
                         </div>
                     </div>
                     <div class="dica">
@@ -166,16 +174,7 @@
                             <h3>Enviar</h3>
                         </div>
                         <div class="dica-body">
-                            <p>Clique no botão <b>enviar</b>, para mandar seus dados via WhatsApp, lembre-se de anexar seu layout.</p>
-                        </div>
-                    </div>
-                    <div class="dica">
-                        <div class="dica-header">
-                            <i class="fas fa-paperclip"></i>
-                            <h3>Anexar</h3>
-                        </div>
-                        <div class="dica-body">
-                            <p>Após ser redirecionado para o WhatsApp, clique no botão <i class="fas fa-paperclip"></i>, depois em <b>fotos e vídeos</b> e então escolha a imagem do layout.</b></p>
+                            <p>Clique no botão <b>enviar</b>, para mandar seus dados via e-mail, seu mapeamento será anexado automáticamente.</p>
                         </div>
                     </div>
                 </div>
@@ -184,10 +183,10 @@
             <!-- Layout -->
             <section class="sessao bg-cinza sessao-layout" id="layout">
                 <div class="sessao-header">
-                    <h1>Layout</h1>
+                    <h1>Mapeamento</h1>
                 </div>
                 <div class="sessao-body">
-                    <div class="canvas-wrapper">
+                    <div class="canvas-wrapper" id="canvas-wrapper">
                         <canvas width="720px" height="624px"></canvas>
                         <div class="nameCustomArea hide">
                             <div class="textEntry">
@@ -295,14 +294,14 @@
                                     <i class="fas fa-sort-numeric-up-alt"></i>
                                 </div>
                                 <div class="customArea" title="Criar área personalizada">
-                                    <i class="fas fa-expand-arrows-alt"></i>
+                                    <i class="fas fa-crop-alt"></i>
                                 </div>
-                                <div class="excluir" title="Excluir layout">
+                                <div class="excluir" title="Excluir mapeamento">
                                     <i class="fas fa-trash"></i>
                                 </div>
                             </div>
                             <div class="confirmarExclusao hide">
-                                <p>Deseja excluir o layout e recomeçar?</p>
+                                <p>Deseja excluir o mapeamento e recomeçar?</p>
                                 <div class="confirmar">
                                     <button class="btn" id="confirmar" onclick="excluirConfirmar()">Confirmar</button>
                                 </div>
@@ -365,7 +364,7 @@
                             </div>
                         </form>
                         <div class="anexar-layout hide">
-                            <img src="imagens/mesaQuadrada.png" alt="img de layout anexado" id="anexar-layout-img">
+                            <img src="imagens/mesaQuadrada.png" alt="img de mapeamento anexado" id="anexar-layout-img">
                             <label for="" class="anexar-layout-label">Layout anexado</label>
                         </div>
                         <div class="hide">
@@ -377,10 +376,8 @@
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> -->
         <script src="https://smtpjs.com/v3/smtp.js"></script>
-        <script type="text/javascript" src='js/Mesa.js'></script>
-        <script type="text/javascript" src='js/CustomArea.js'></script>
-        <script type="text/javascript" src='js/script.js'></script>
+        <script type="text/javascript" src='js/index.js'></script>
     </body>
 </html>
