@@ -13,7 +13,12 @@ var posCanvas;
 var componentes = [], customAreas = [], lines = [], walls = [];
 var elemento, rotation, numeroItem;
 var qtdMesaQuadrada, qtdMesaRedonda, qtdMesaBolo, qtdMesaBuffet, qtdMesaCarretelG, qtdMesaCarretelM, qtdMesaCarretelP, qtdConvidados;
-var selecionado, numerando, drawing, showDimensions;
+var selecionado, numerando, drawing, showDimensions, moving, deleted, grabbing;
+var movingType;
+var xClick, yClick;
+
+let pos = { top: 0, left: 0, x: 0, y: 0 };
+var scale, zoomXY;
 
 var PADDING = 0;
 var WIDTH = imgPlantaBaixa.width;
@@ -45,23 +50,31 @@ function iniciar() {
     document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
     document.querySelector("#qtdConvidados").innerHTML = qtdConvidados;
 
+    document.getElementById("show-dimensions").checked = true;
+
     cancelarSelecaoBtn();
 
     selecionado = false;
     numerando = false;
     drawing = false;
+    moving - false;
+    deleted = false;
     showDimensions = true;
+    grabbing = false;
+
+    movingType = '';
 
     rotation = 0;
     numeroItem = 0;
+
+    scale = 1;
+    zoomXY = 1;
 
     componentes = [];
     customAreas = [];
     lines = [];
     walls = [];
 
-    $('#large-container').outerWidth(WIDTH);
-    $('#large-container').outerHeight(HEIGHT);
     resizeCanvas();
 }
 
@@ -71,14 +84,16 @@ function loop() {
 }
 
 function draw() {
-    //ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    //ctx.scale(scale, scale)
     ctx.fillStyle = 'rgb(220, 190, 140)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(imgPlantaBaixa, 0, 0, imgPlantaBaixa.width, imgPlantaBaixa.height);
     posCanvas = canvas.getBoundingClientRect();
     drawComponentes();
-    if (selecionado) {
-        elemento.drawItem(ctx);
+    if (selecionado || moving) {
+        elemento.drawElement(ctx);
         if (elemento.id > 0) {
             elemento.drawNumero(ctx);
         }
@@ -87,6 +102,7 @@ function draw() {
         elemento.drawElement(ctx);
         elemento.drawLenght(ctx);
     }
+    ctx.restore();   
 }
 
 function drawComponentes() {
@@ -94,20 +110,20 @@ function drawComponentes() {
     if (walls.length > 0) {
         for (var i = 0; i < walls.length; i++) {
             walls[i].drawElement(ctx);
-            if(showDimensions)walls[i].drawLenght(ctx);
+            if (showDimensions) walls[i].drawLenght(ctx);
         }
     }
     //Linhas
     if (lines.length > 0) {
         for (var i = 0; i < lines.length; i++) {
             lines[i].drawElement(ctx);
-            if(showDimensions)lines[i].drawLenght(ctx);
+            if (showDimensions) lines[i].drawLenght(ctx);
         }
     }
     //Itens
     if (componentes.length > 0) {
         for (var i = 0; i < componentes.length; i++) {
-            componentes[i].drawItem(ctx);
+            componentes[i].drawElement(ctx);
             if (componentes[i].id > 0)
                 componentes[i].drawNumero(ctx);
         }
@@ -116,7 +132,7 @@ function drawComponentes() {
     if (customAreas.length > 0) {
         for (var i = 0; i < customAreas.length; i++) {
             customAreas[i].drawElement(ctx);
-            if(showDimensions)customAreas[i].drawLenght(ctx);
+            if (showDimensions) customAreas[i].drawLenght(ctx);
         }
     }
 }
@@ -157,10 +173,13 @@ function cancelarSelecaoBtn() {
     document.querySelector(".line").classList.remove("selecionado");
     document.querySelector(".wall").classList.remove("selecionado");
     document.querySelector(".excluir").classList.remove("selecionado");
+    document.querySelector(".move").classList.remove("selecionado");
+    document.querySelector(".delete").classList.remove("selecionado");
     document.querySelector(".confirmarExclusao").classList.add("hide");
 
-    canvas.classList.remove("pointer");
-    canvas.classList.remove("move");
+    //canvas.classList.remove("pointer");
+    //canvas.classList.remove("move");
+    canvas.style.cursor = 'grab';
 
     selecionado = false;
     numerando = false;
@@ -203,12 +222,14 @@ function removerConvidado(elemento) {
 
 function selecaoFalse() {
     selecionado = false;
-    canvas.classList.remove("move");
+    // canvas.classList.remove("move");
+    canvas.style.cursor = 'grab';
 }
 
 function selecaoTrue() {
     selecionado = true;
-    canvas.classList.add("move");
+    //canvas.classList.add("move");
+    canvas.style.cursor = 'move';
 }
 
 //Canvas scrollbar
@@ -389,18 +410,46 @@ document.querySelector(".rotate").addEventListener("click", () => {
     elemento.rotation = this.rotation;
 });
 
+//Botão mover
+document.querySelector(".move").addEventListener("click", () => {
+    if (!document.querySelector(".move").classList.contains("selecionado")) {
+        cancelarSelecaoBtn();
+        selecaoFalse();
+        document.querySelector(".move").classList.add("selecionado");
+        // canvas.classList.add("move");
+        canvas.style.cursor = 'move';
+    }
+    else {
+        cancelarSelecaoBtn();
+    }
+});
+
+//Boão deletar
+document.querySelector(".delete").addEventListener("click", () => {
+    if (!document.querySelector(".delete").classList.contains("selecionado")) {
+        cancelarSelecaoBtn();
+        selecaoFalse();
+        document.querySelector(".delete").classList.add("selecionado");
+        // canvas.classList.add("pointer");
+        canvas.style.cursor = 'pointer';
+    }
+    else {
+        cancelarSelecaoBtn();
+    }
+});
+
 //Botão numerar
 document.querySelector(".numerar").addEventListener("click", () => {
     if (!document.querySelector(".numerar").classList.contains("selecionado")) {
         cancelarSelecaoBtn();
         selecaoFalse();
         document.querySelector(".numerar").classList.add("selecionado");
-        canvas.classList.add("pointer");
+        // canvas.classList.add("pointer");
+        canvas.style.cursor = 'pointer';
         numerando = true;
     }
     else {
         cancelarSelecaoBtn();
-        canvas.classList.remove("pointer");
     }
 });
 
@@ -410,11 +459,11 @@ document.querySelector(".customArea").addEventListener("click", () => {
         cancelarSelecaoBtn();
         selecaoFalse();
         document.querySelector(".customArea").classList.add("selecionado");
-        canvas.classList.add("pointer");
+        // canvas.classList.add("pointer");
+        canvas.style.cursor = 'pointer';
     }
     else {
         cancelarSelecaoBtn();
-        canvas.classList.remove("pointer");
     }
 });
 
@@ -424,11 +473,11 @@ document.querySelector(".line").addEventListener("click", () => {
         cancelarSelecaoBtn();
         selecaoFalse();
         document.querySelector(".line").classList.add("selecionado");
-        canvas.classList.add("pointer");
+        // canvas.classList.add("pointer");
+        canvas.style.cursor = 'pointer';
     }
     else {
         cancelarSelecaoBtn();
-        canvas.classList.remove("pointer");
     }
 });
 
@@ -438,11 +487,11 @@ document.querySelector(".wall").addEventListener("click", () => {
         cancelarSelecaoBtn();
         selecaoFalse();
         document.querySelector(".wall").classList.add("selecionado");
-        canvas.classList.add("pointer");
+        // canvas.classList.add("pointer");
+        canvas.style.cursor = 'pointer';
     }
     else {
         cancelarSelecaoBtn();
-        canvas.classList.remove("pointer");
     }
 });
 
@@ -471,19 +520,19 @@ function excluirCancelar() {
     cancelarSelecaoBtn();
 }
 
-function toggleDimensions(){
-    if(document.getElementById('show-dimensions').checked){
+function toggleDimensions() {
+    if (document.getElementById('show-dimensions').checked) {
         showDimensions = true;
     }
-    else{
+    else {
         showDimensions = false;
     }
 }
 
 //Botão download (Adicionar anexo)
-document.querySelector(".download").addEventListener("click", function (e) {
-    if (document.querySelector(".anexar-layout").classList.contains("hide"))
-        document.querySelector(".anexar-layout").classList.remove("hide")
+document.querySelector("#btnDownload").addEventListener("click", function (e) {
+    // if (document.querySelector(".anexar-layout").classList.contains("hide"))
+    //     document.querySelector(".anexar-layout").classList.remove("hide")
 
     const layout = document.createElement("a");
     document.body.appendChild(layout);
@@ -518,12 +567,13 @@ function nameConfirm() {
 
     formatCoord();
 
-    customAreas.push(elemento);
+    //customAreas.push(elemento);
     clearNameCustomArea();
 }
 
 function nameCancel() {
     elemento = null;
+    customAreas.pop();
     clearNameCustomArea();
 }
 
@@ -532,6 +582,7 @@ canvas.addEventListener("mouseup", function (e) {
     if (drawing) {
         if (elemento.width != 0 || elemento.height != 0) {
             if (document.querySelector(".customArea").classList.contains("selecionado")) {
+                customAreas.push(elemento);
                 document.querySelector(".nameCustomArea").classList.remove("hide");
                 document.querySelector("#customAreaName").focus();
                 cancelarSelecaoBtn();
@@ -549,7 +600,285 @@ canvas.addEventListener("mouseup", function (e) {
         }
         drawing = false;
     }
+    else if (moving) {
+        switch (movingType) {
+            case 'component':
+                //elemento.x -= elemento.dx;
+                //elemento.y -= elemento.dy;
+                elemento.dx = 0;
+                elemento.dy = 0;
+                componentes.push(elemento);
+                break;
+            case 'line':
+                elemento.x -= elemento.dx;
+                elemento.y -= elemento.dy;
+                elemento.xFinal -= elemento.dx;
+                elemento.yFinal -= elemento.dy;
+                elemento.dx = 0;
+                elemento.dy = 0;
+                lines.push(elemento);
+                break;
+            case 'wall':
+                elemento.x -= elemento.dx;
+                elemento.y -= elemento.dy;
+                elemento.xFinal -= elemento.dx;
+                elemento.yFinal -= elemento.dy;
+                elemento.dx = 0;
+                elemento.dy = 0;
+                walls.push(elemento);
+                break;
+            case 'customArea':
+                elemento.x -= elemento.dx;
+                elemento.y -= elemento.dy;
+                elemento.dx = 0;
+                elemento.dy = 0;
+                customAreas.push(elemento);
+                break;
+        }
+        moving = false;
+        movingType = '';
+    }
+    else if (grabbing){
+        canvas.style.cursor = 'grab';
+        canvas.style.removeProperty('user-select');
+        grabbing = false;
+    }
 });
+
+function startMoving(e, xClick, yClick) {
+    elemento.dx = xClick - elemento.x;
+    elemento.dy = yClick - elemento.y;
+    elemento.move(e, posCanvas);
+    moving = true;
+}
+
+function moveElement(e) {
+    xClick = e.clientX - posCanvas.left;
+    yClick = e.clientY - posCanvas.top;
+    //Move Item
+    if (!moving) {
+        for (var i = componentes.length - 1; i >= 0; i--) {
+            var xComp = componentes[i].x,
+                yComp = componentes[i].y,
+                wComp = componentes[i].width / 2,
+                hComp = componentes[i].height / 2;
+            if (xClick >= xComp - wComp && xClick <= xComp + wComp &&
+                yClick >= yComp - hComp && yClick <= yComp + hComp) {
+
+                rotation = componentes[i].rotation;
+                elemento = componentes[i];
+
+                componentes.splice(i, 1);
+                movingType = 'component';
+                startMoving(e, xClick, yClick);
+                break;
+            }
+        }
+    }
+    //Move line
+    if (!moving) {
+        for (var i = lines.length - 1; i >= 0; i--) {
+            var x = lines[i].x,
+                y = lines[i].y,
+                m = lines[i].m;
+
+            if (between(xClick, yClick, lines[i])) {
+
+                if (lines[i].m == 0) {
+                    elemento = lines[i];
+                    lines.splice(i, 1);
+                    movingType = 'line';
+                    startMoving(e, xClick, yClick);
+                    break;
+                }
+
+                var eqFundamental = yClick - y - xClick * m + x * m;
+                if (eqFundamental < 0) { eqFundamental *= -1; }
+                var d = eqFundamental / Math.sqrt(m * m + 1);
+
+                if (d <= 4) {
+                    elemento = lines[i];
+                    lines.splice(i, 1);
+                    movingType = 'line';
+                    startMoving(e, xClick, yClick);
+                    break;
+                }
+            }
+        }
+    }
+    //Move Wall
+    if (!moving) {
+        for (var i = walls.length - 1; i >= 0; i--) {
+            var x = walls[i].x,
+                y = walls[i].y,
+                m = walls[i].m;
+
+            if (between(xClick, yClick, walls[i])) {
+
+                if (walls[i].m == 0) {
+                    elemento = walls[i];
+                    walls.splice(i, 1);
+                    movingType = 'wall';
+                    startMoving(e, xClick, yClick);
+                    break;
+                }
+
+                var eqFundamental = yClick - y - xClick * m + x * m;
+                if (eqFundamental < 0) { eqFundamental *= -1; }
+                var d = eqFundamental / Math.sqrt(m * m + 1);
+
+                if (d <= 7) {
+                    elemento = walls[i];
+                    walls.splice(i, 1);
+                    movingType = 'wall';
+                    startMoving(e, xClick, yClick);
+                    break;
+                }
+            }
+        }
+    }
+    //Move Custom Area
+    if (!moving) {
+        for (var i = customAreas.length - 1; i >= 0; i--) {
+            var xComp = customAreas[i].x,
+                yComp = customAreas[i].y,
+                wComp = customAreas[i].width,
+                hComp = customAreas[i].height;
+            if (xClick >= xComp && xClick <= xComp + wComp &&
+                yClick >= yComp && yClick <= yComp + hComp) {
+                elemento = customAreas[i];
+                customAreas.splice(i, 1);
+                movingType = 'customArea';
+                startMoving(e, xClick, yClick);
+                break;
+            }
+        }
+    }
+}
+
+function deleteElement(e) {
+    xClick = e.clientX - posCanvas.left;
+    yClick = e.clientY - posCanvas.top;
+    deleted = false;
+
+    //Deletar item
+    if (!deleted) {
+        for (var i = componentes.length - 1; i >= 0; i--) {
+            var xComp = componentes[i].x,
+                yComp = componentes[i].y,
+                wComp = componentes[i].width / 2,
+                hComp = componentes[i].height / 2;
+            if (xClick >= xComp - wComp && xClick <= xComp + wComp &&
+                yClick >= yComp - hComp && yClick <= yComp + hComp) {
+
+                switch (componentes[i].tipo) {
+                    case 'quadrada':
+                        qtdMesaQuadrada++;
+                        document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
+                        break;
+                    case 'redonda':
+                        qtdMesaRedonda++;
+                        document.querySelector("#qtdMesaRedonda").innerHTML = qtdMesaRedonda;
+                        break;
+                    case 'bolo':
+                        qtdMesaBolo++;
+                        document.querySelector("#qtdMesaBolo").innerHTML = qtdMesaBolo;
+                        break;
+                    case 'buffet':
+                        qtdMesaBuffet++;
+                        document.querySelector("#qtdMesaBuffet").innerHTML = qtdMesaBuffet;
+                        break;
+                    case 'carretelG':
+                        qtdMesaCarretelG++;
+                        document.querySelector("#qtdMesaCarretelG").innerHTML = qtdMesaCarretelG;
+                        break;
+                    case 'carretelM':
+                        qtdMesaCarretelM++;
+                        document.querySelector("#qtdMesaCarretelM").innerHTML = qtdMesaCarretelM;
+                        break;
+                    case 'carretelP':
+                        qtdMesaCarretelP++;
+                        document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
+                        break;
+                }
+                removerConvidado(componentes[i]);
+                componentes.splice(i, 1);
+                deleted = true;
+                break;
+            }
+        }
+    }
+    //Deletar linha
+    if (!deleted) {
+        for (var i = lines.length - 1; i >= 0; i--) {
+            var x = lines[i].x,
+                y = lines[i].y,
+                m = lines[i].m;
+
+            if (between(xClick, yClick, lines[i])) {
+
+                if (lines[i].m == 0) {
+                    lines.splice(i, 1);
+                    deleted = true;
+                    break;
+                }
+
+                var eqFundamental = yClick - y - xClick * m + x * m;
+                if (eqFundamental < 0) { eqFundamental *= -1; }
+                var d = eqFundamental / Math.sqrt(m * m + 1);
+
+                //console.log(d);
+                if (d <= 4) {
+                    lines.splice(i, 1);
+                    deleted = true;
+                    break;
+                }
+            }
+        }
+    }
+    //Deletar parede
+    if (!deleted) {
+        for (var i = walls.length - 1; i >= 0; i--) {
+            var x = walls[i].x,
+                y = walls[i].y,
+                m = walls[i].m;
+
+            if (between(xClick, yClick, walls[i])) {
+
+                if (walls[i].m == 0) {
+                    walls.splice(i, 1);
+                    deleted = true;
+                    break;
+                }
+
+                var eqFundamental = yClick - y - xClick * m + x * m;
+                if (eqFundamental < 0) { eqFundamental *= -1; }
+                var d = eqFundamental / Math.sqrt(m * m + 1);
+
+                if (d <= 7) {
+                    walls.splice(i, 1);
+                    deleted = true;
+                    break;
+                }
+            }
+        }
+    }
+    //Deletar area personalizada
+    if (!deleted) {
+        for (var i = customAreas.length - 1; i >= 0; i--) {
+            var xComp = customAreas[i].x,
+                yComp = customAreas[i].y,
+                wComp = customAreas[i].width,
+                hComp = customAreas[i].height;
+            if (xClick >= xComp && xClick <= xComp + wComp &&
+                yClick >= yComp && yClick <= yComp + hComp) {
+                customAreas.splice(i, 1);
+                deleted = true;
+                break;
+            }
+        }
+    }
+}
 
 function addLine(e) {
     elemento = new Line();
@@ -647,12 +976,12 @@ function addItem(e) {
     }
 }
 
-function moverNumerarItem(e) {
-    var xClick = e.clientX - posCanvas.left,
-        yClick = e.clientY - posCanvas.top;
-    for (var i = 0; i < componentes.length; i++) {
-        var xComp = componentes[i].posX,
-            yComp = componentes[i].posY,
+function orderItem(e) {
+    xClick = e.clientX - posCanvas.left;
+    yClick = e.clientY - posCanvas.top;
+    for (var i = componentes.length - 1; i >= 0; i--) {
+        var xComp = componentes[i].x,
+            yComp = componentes[i].y,
             wComp = componentes[i].width / 2,
             hComp = componentes[i].height / 2;
         if (xClick >= xComp - wComp && xClick <= xComp + wComp &&
@@ -669,51 +998,6 @@ function moverNumerarItem(e) {
                     ctx.fillText("teste" + numeroItem, 50, 50);
                 }
             }
-            //Reposicionar item
-            else {
-                rotation = componentes[i].rotation;
-                switch (componentes[i].tipo) {
-                    case 'quadrada':
-                        qtdMesaQuadrada++;
-                        document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
-                        document.querySelector(".quadrada").classList.add("selecionado");
-                        break;
-                    case 'redonda':
-                        qtdMesaRedonda++;
-                        document.querySelector("#qtdMesaRedonda").innerHTML = qtdMesaRedonda;
-                        document.querySelector(".redonda").classList.add("selecionado");
-                        break;
-                    case 'bolo':
-                        qtdMesaBolo++;
-                        document.querySelector("#qtdMesaBolo").innerHTML = qtdMesaBolo;
-                        document.querySelector(".bolo").classList.add("selecionado");
-                        break;
-                    case 'buffet':
-                        qtdMesaBuffet++;
-                        document.querySelector("#qtdMesaBuffet").innerHTML = qtdMesaBuffet;
-                        document.querySelector(".buffet").classList.add("selecionado");
-                        break;
-                    case 'carretelG':
-                        qtdMesaCarretelG++;
-                        document.querySelector("#qtdMesaCarretelG").innerHTML = qtdMesaCarretelG;
-                        document.querySelector(".carretelG").classList.add("selecionado");
-                        break;
-                    case 'carretelM':
-                        qtdMesaCarretelM++;
-                        document.querySelector("#qtdMesaCarretelM").innerHTML = qtdMesaCarretelM;
-                        document.querySelector(".carretelM").classList.add("selecionado");
-                        break;
-                    case 'carretelP':
-                        qtdMesaCarretelP++;
-                        document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
-                        document.querySelector(".carretelP").classList.add("selecionado");
-                        break;
-                }
-                elemento = componentes[i];
-                removerConvidado(elemento);
-                componentes.splice(i, 1);
-                selecaoTrue();
-            }
             break;
         }
     }
@@ -725,6 +1009,14 @@ canvas.addEventListener("mousedown", function (e) {
         if (document.querySelector(".excluir").classList.contains("selecionado")) {
             excluirCancelar();
         }
+        //Mover
+        else if (document.querySelector(".move").classList.contains("selecionado")) {
+            moveElement(e);
+        }
+        //Delete
+        else if (document.querySelector(".delete").classList.contains("selecionado")) {
+            deleteElement(e);
+        }
         //Desenhar linha reta
         else if (document.querySelector(".line").classList.contains("selecionado")) {
             addLine(e);
@@ -734,28 +1026,41 @@ canvas.addEventListener("mousedown", function (e) {
             addWall(e);
         }
         //Area customizada
-        else if (document.querySelector(".customArea").classList.contains("selecionado") && !drawing) {
+        else if (document.querySelector(".customArea").classList.contains("selecionado")) {
             addCustomArea(e);
+        }
+        //Numerar item adicionado
+        else if (document.querySelector(".numerar").classList.contains("selecionado")) {
+            orderItem(e);
         }
         //Adicionar item
         else if (selecionado) {
             addItem(e);
         }
-        //Mover ou numerar item adicionado
+        //Arrastar tela
         else {
-            moverNumerarItem(e);
+            canvas.style.cursor = 'grabbing';
+            canvas.style.userSelect = 'none';
+            grabbing = true;
+
+            pos = {
+                left: scrollContainer.scrollLeft,
+                top: scrollContainer.scrollTop,
+                x: e.clientX,
+                y: e.clientY,
+            };
         }
     }
 });
 
-function between(xClick, yClick, line){
+function between(xClick, yClick, line) {
     var minX = Math.min.apply(Math, [line.x, line.xFinal]),
         maxX = Math.max.apply(Math, [line.x, line.xFinal]),
         minY = Math.min.apply(Math, [line.y, line.yFinal]),
         maxY = Math.max.apply(Math, [line.y, line.yFinal]);
-    
-    if (xClick >= minX-4 && xClick <= maxX+4 &&
-        yClick >= minY-4 && yClick <= maxY+4) {
+
+    if (xClick >= minX - 4 && xClick <= maxX + 4 &&
+        yClick >= minY - 4 && yClick <= maxY + 4) {
         return true;
     }
     return false;
@@ -768,77 +1073,9 @@ canvas.addEventListener('contextmenu', function (e) {
         var xClick = e.clientX - posCanvas.left,
             yClick = e.clientY - posCanvas.top;
 
-        if (!drawing) {
-            //Deletar area personalizada
-            if (document.querySelector(".customArea").classList.contains("selecionado")) {
-                for (var i = customAreas.length - 1; i >= 0; i--) {
-                    var xComp = customAreas[i].x,
-                        yComp = customAreas[i].y,
-                        wComp = customAreas[i].width,
-                        hComp = customAreas[i].height;
-                    if (xClick >= xComp && xClick <= xComp + wComp &&
-                        yClick >= yComp && yClick <= yComp + hComp) {
-                        customAreas.splice(i, 1);
-                        break;
-                    }
-                }
-            }
-            //Deletar linha
-            else if (document.querySelector(".line").classList.contains("selecionado")) {
-                for (var i = lines.length - 1; i >= 0; i--) {
-                    var x = lines[i].x,
-                        y = lines[i].y,
-                        m = lines[i].m;
-
-                    if (between(xClick, yClick, lines[i])) {
-
-                        if (lines[i].m == 0) {
-                            lines.splice(i, 1);
-                            break;
-                        }
-
-                        var eqFundamental = yClick - y - xClick * m + x * m;
-                        if (eqFundamental < 0) { eqFundamental *= -1; }
-                        var d = eqFundamental / Math.sqrt(m * m + 1);
-
-                        //console.log(d);
-                        if (d <= 4) {
-                            lines.splice(i, 1);
-                            break;
-                        }
-                    }
-                }
-            }
-            //Deletar parede
-            else if (document.querySelector(".wall").classList.contains("selecionado")) {
-                for (var i = walls.length - 1; i >= 0; i--) {
-                    var x = walls[i].x,
-                        y = walls[i].y,
-                        m = walls[i].m;
-
-                    if (between(xClick, yClick, walls[i])) {
-
-                        if (walls[i].m == 0) {
-                            walls.splice(i, 1);
-                            break;
-                        }
-
-                        var eqFundamental = yClick - y - xClick * m + x * m;
-                        if (eqFundamental < 0) { eqFundamental *= -1; }
-                        var d = eqFundamental / Math.sqrt(m * m + 1);
-
-                        if (d <= 7) {
-                            walls.splice(i, 1);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
         for (var i = componentes.length - 1; i >= 0; i--) {
-            var xComp = componentes[i].posX,
-                yComp = componentes[i].posY,
+            var xComp = componentes[i].x,
+                yComp = componentes[i].y,
                 wComp = componentes[i].width / 2,
                 hComp = componentes[i].height / 2;
             if (xClick >= xComp - wComp && xClick <= xComp + wComp &&
@@ -847,50 +1084,15 @@ canvas.addEventListener('contextmenu', function (e) {
                 //Deletar numeracao
                 if (numerando) {
                     if (componentes[i].id > 0) {
-                        for (var j = 0; j < componentes.length; j++) {
+                        for (var j = componentes.length - 1; j >= 0; j--) {
                             if (componentes[i].id < componentes[j].id) {
                                 componentes[j].id--;
                             }
                         }
                         componentes[i].id = 0;
                         numeroItem--;
+                        break;
                     }
-                }
-                //Deletar item
-                else {
-                    switch (componentes[i].tipo) {
-                        case 'quadrada':
-                            qtdMesaQuadrada++;
-                            document.querySelector("#qtdMesaQuadrada").innerHTML = qtdMesaQuadrada;
-                            break;
-                        case 'redonda':
-                            qtdMesaRedonda++;
-                            document.querySelector("#qtdMesaRedonda").innerHTML = qtdMesaRedonda;
-                            break;
-                        case 'bolo':
-                            qtdMesaBolo++;
-                            document.querySelector("#qtdMesaBolo").innerHTML = qtdMesaBolo;
-                            break;
-                        case 'buffet':
-                            qtdMesaBuffet++;
-                            document.querySelector("#qtdMesaBuffet").innerHTML = qtdMesaBuffet;
-                            break;
-                        case 'carretelG':
-                            qtdMesaCarretelG++;
-                            document.querySelector("#qtdMesaCarretelG").innerHTML = qtdMesaCarretelG;
-                            break;
-                        case 'carretelM':
-                            qtdMesaCarretelM++;
-                            document.querySelector("#qtdMesaCarretelM").innerHTML = qtdMesaCarretelM;
-                            break;
-                        case 'carretelP':
-                            qtdMesaCarretelP++;
-                            document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
-                            break;
-                    }
-                    removerConvidado(componentes[i]);
-                    componentes.splice(i, 1);
-                    break;
                 }
             }
         }
@@ -901,11 +1103,6 @@ canvas.addEventListener('contextmenu', function (e) {
     }
 });
 
-//Arrastar clique direito
-canvas.addEventListener('dragstart', function (e) {
-    console.log(e.key)
-});
-
 //Mover componente
 canvas.addEventListener("mousemove", function (e) {
     if (selecionado) {
@@ -914,6 +1111,36 @@ canvas.addEventListener("mousemove", function (e) {
     else if (drawing) {
         elemento.endDraw(e, posCanvas);
     }
+    else if (moving) {
+        elemento.move(e, posCanvas);
+    }
+    else if (grabbing){
+        const dx = e.clientX - pos.x;
+        const dy = e.clientY - pos.y;
+        scrollContainer.scrollTop = pos.top - dy;
+        scrollContainer.scrollLeft = pos.left - dx;
+    }
+});
+
+//Zoom
+function zoom(dv) {
+    zoomXY += dv;
+    canvas.style.transform = "scale(" + zoomXY + ")";
+  }
+//$('#scroll-container').bind('mousewheel DOMMouseScroll', function (e) { return false; });
+scrollContainer.addEventListener('wheel', function (e) {
+    var dv;
+    if(e.deltaY == 100){
+        scale = 0.8;
+        dv = -0.1;
+    }
+    else if (e.deltaY == -100){
+        scale = 1.2;
+        dv = 0.1;
+    }
+    //ctx.scale(scale, scale);
+    zoom(dv);
+    console.log(e);
 });
 
 /*

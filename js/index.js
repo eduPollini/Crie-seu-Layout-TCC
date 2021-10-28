@@ -112,16 +112,18 @@ function sendEmail() {
         sou = $('#eu-sou :selected').text();
     }
 
+    /*
     var msg = "&text="
         + "Nome: " + nome.value + "%0a"
         + "Fone: " + fone.value + "%0a"
         + "E-mail: " + email.value + "%0a"
         + "Eu sou: " + sou + "%0a"
         + "Convidados: " + qtdConvidados + "<br/>"
-        + "Observação: " + observacao.value + "%0a" + canvas;
+        + "Observação: " + observacao.value + "%0a" + canvas;*/
 
     //abrirWhatsApp(msg);
 
+    var canvas = document.querySelector('canvas');
     dataUrl = canvas.toDataURL();
 
     Email.send({
