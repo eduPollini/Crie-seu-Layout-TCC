@@ -13,17 +13,17 @@ function Line() {
     this.dy = 0;
 
     //Métodos
-    this.beginDraw = function (event, posCanvas) {
-        this.x = event.clientX - posCanvas.left;
-        this.y = event.clientY - posCanvas.top;
+    this.beginDraw = function (e, posCanvas, zoom) {
+        this.x = (e.clientX - posCanvas.left) / zoom;
+        this.y = (e.clientY - posCanvas.top) / zoom;
         this.xFinal = this.x;
         this.yFinal = this.y;
         this.width = 0;
         this.height = 0;
     }
-    this.endDraw = function (event, posCanvas) {
-        this.xFinal = event.clientX - posCanvas.left;
-        this.yFinal = event.clientY - posCanvas.top;
+    this.endDraw = function (e, posCanvas, zoom) {
+        this.xFinal = (e.clientX - posCanvas.left) / zoom;
+        this.yFinal = (e.clientY - posCanvas.top) / zoom;
         this.width = this.xFinal - this.x;
         this.height = this.yFinal - this.y;
 
@@ -67,9 +67,9 @@ function Line() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
     }
-    this.move = function (e, posCanvas){
-        this.x = e.clientX - posCanvas.left;
-        this.y = e.clientY - posCanvas.top;
+    this.move = function (e, posCanvas, zoom){
+        this.x = (e.clientX - posCanvas.left) / zoom;
+        this.y = (e.clientY - posCanvas.top) / zoom;
         this.xFinal = this.x + this.width;
         this.yFinal = this.y + this.height;
     }

@@ -79,7 +79,7 @@
                 </div>
                 <div class="elemento">
                     <div class="elemento-img-wrapper" title="Mesa de carretel média">
-                        <img src="imagens/mesaCarretelG.png" alt="img mesa de carretel Media" id="imgMesaCarretelM">
+                        <img src="imagens/mesaCarretelM.png" alt="img mesa de carretel Media" id="imgMesaCarretelM">
                     </div>
                     <div class="qtdElemento">
                         <p id="qtdMesaCarretelM">7</p>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="elemento">
                     <div class="elemento-img-wrapper" title="Mesa de carretel pequena">
-                        <img src="imagens/mesaCarretelG.png" alt="img mesa de carretel pequena" id="imgMesaCarretelP">
+                        <img src="imagens/mesaCarretelP.png" alt="img mesa de carretel pequena" id="imgMesaCarretelP">
                     </div>
                     <div class="qtdElemento">
                         <p id="qtdMesaCarretelP">1</p>
@@ -112,7 +112,7 @@
                     <div class="delete" title="Ferramenta de deletar">
                         <i class="fas fa-eraser"></i>
                     </div>
-                    <div class="numerar" title="Numerar item">
+                    <div class="numerar" title="Ordenar item">
                         <i class="fas fa-sort-numeric-up-alt"></i>
                     </div>
                     <div class="customArea" title="Criar área personalizada">
@@ -149,12 +149,14 @@
                         </div>
                     </div>
                     <!-- Export button -->
-                    <a class="btn export" id="btnDownload" title="Baixar o mapeamento como imagem"><i class="fas fa-download"></i>Baixar</a>
-                    <a class="btn export" id="btnSend" title="Enviar mapeamento para Sítio Refúgio dos Pássaros"><i class="fas fa-paper-plane"></i>Enviar</a>
+                    <a class="btn export" id="btnDownload" title="Baixar o mapeamento como imagem"><i
+                            class="fas fa-download"></i>Baixar</a>
+                    <a class="btn export" id="btnSend" onclick="openForm()" title="Enviar mapeamento para Sítio Refúgio dos Pássaros"><i
+                            class="fas fa-paper-plane"></i>Enviar</a>
                 </div>
             </div>
         </div>
-        
+
         <div class="nameCustomArea confirmation hide">
             <div class="textEntry">
                 <p>De um nome à sua área personalizada.</p>
@@ -167,15 +169,61 @@
         </div>
         <div id="scroll-container" class="scroll-bar">
             <canvas id="canvas"></canvas>
-            <!-- <div id="large-container">
-                <div id="container">
+        </div>
+
+    </div>
+
+    <!-- Send mapping -->
+    <div class="send-mapping hide">
+        <div class="sessao-contato">
+            <div class="contato-img-wrapper"></div>
+            <div class="sessao-form">
+                <form id="contato-form" method="post">
+                    <div class="input-group">
+                        <input type="text" class="field" id="nome" value="">
+                        <label for="nome" class="field-label" id="nome-label">Nome</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="tel" class="field" id="fone" value="">
+                        <label for="fone" class="field-label" id="fone-label">Fone</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" class="field" id="email" value="">
+                        <label for="email" class="field-label" id="email-label">E-mail</label>
+                    </div>
+                    <div class="input-group eu">
+                        <select class="field" id="eu-sou">
+                            <option value="0" hidden>Eu sou...</option>
+                            <option value="1">Noivo(a)</option>
+                            <option value="2">Cerimonialista</option>
+                            <option value="3">Decorador(a)</option>
+                            <option value="4">Aniversariante</option>
+                            <option value="5">Personalizar</option>
+                        </select>
+                        <input type="text" class="field hide" id="outro">
+                    </div>
+                    <div class="input-group">
+                        <textarea class="field scroll-bar" id="observacao"></textarea>
+                        <label for="observacao" class="field-label" id="observacao-label">Observação</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="button" class="btn btn-submit" id="btnEnviarMsg" value="Enviar"
+                            onclick="sendEmail()">
+                    </div>
+                </form>
+                <div class="close-form" onclick="closeForm()">
+                    <i class="fas fa-times"></i>
                 </div>
-            </div> -->
+                <div class="hide">
+
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://unpkg.com/konva@8.2.2/konva.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script type="text/javascript" src="js/mapping.js"></script>
     <script type="text/javascript" src='js/item.js'></script>
     <script type="text/javascript" src='js/line.js'></script>

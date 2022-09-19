@@ -916,6 +916,10 @@ header{
     position: relative;
 }
 
+.border-white h1{
+    border-bottom: solid 3px #fff;
+}
+
 .contato-img-wrapper{
     width: 35%;
     height: 100%;

@@ -123,23 +123,18 @@ function sendEmail() {
 
     //abrirWhatsApp(msg);
 
-    var canvas = document.querySelector('canvas');
-    dataUrl = canvas.toDataURL();
-
     Email.send({
         Host: "smtp.gmail.com",
-        Username: atob("c3JwZm9ybWNvbnRhdG9AZ21haWwuY29t"),
-        Password: atob("U1JQQzBudEB0MA=="),
-        To: atob("c3JwZm9ybWNvbnRhdG9AZ21haWwuY29t"),
-        From: atob("c3JwZm9ybWNvbnRhdG9AZ21haWwuY29t"),
+        Username: atob("c3JwZm9ybUBnbWFpbC5jb20="),
+        Password: atob("c3JwZm9ybTEyMw=="),
+        To: atob("c3JwZm9ybUBnbWFpbC5jb20="),
+        From: atob("c3JwZm9ybUBnbWFpbC5jb20="),
         Subject: "Novo Layout Criado",
         Body: "Nome: " + nome.value + "<br/>"
             + "Fone: " + fone.value + "<br/>"
             + "E-mail: " + email.value + "<br/>"
             + "Eu sou: " + sou + "<br/>"
-            + "Convidados: " + qtdConvidados + "<br/>"
-            + "Observação: " + observacao.value + "<br/>"
-            + dataUrl
+            + "Observação: " + observacao.value
     })
         .then(function () {
             alert("Obrigado sr(a) " + nome.value + ", seus dados foram enviados com sucesso!");

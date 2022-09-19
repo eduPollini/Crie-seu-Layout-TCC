@@ -14,9 +14,9 @@ function Mesa(tipo, img, x, y, width, height, rotation) {
     this.dy = 0;
 
     //Métodos
-    this.move = function (e, posCanvas) {
-        this.x = e.clientX - posCanvas.left;
-        this.y = e.clientY - posCanvas.top;
+    this.move = function (e, posCanvas, zoom) {
+        this.x = (e.clientX - posCanvas.left) / zoom;
+        this.y = (e.clientY - posCanvas.top) / zoom;
     }
     this.drawElement = function(ctx) {
         ctx.translate(this.x, this.y);

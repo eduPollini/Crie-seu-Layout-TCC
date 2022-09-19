@@ -9,7 +9,7 @@ const imgMesaQuadrada = document.getElementById("imgMesaQuadrada"),
     imgMesaCarretelG = document.getElementById("imgMesaCarretelG"),
     imgMesaCarretelM = document.getElementById("imgMesaCarretelM"),
     imgMesaCarretelP = document.getElementById("imgMesaCarretelP");
-var posCanvas;
+var posCanvas, posScrollContainer;
 var componentes = [], customAreas = [], lines = [], walls = [];
 var elemento, rotation, numeroItem;
 var qtdMesaQuadrada, qtdMesaRedonda, qtdMesaBolo, qtdMesaBuffet, qtdMesaCarretelG, qtdMesaCarretelM, qtdMesaCarretelP, qtdConvidados;
@@ -85,12 +85,15 @@ function loop() {
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.save();
+    //ctx.save();
     //ctx.scale(scale, scale)
     ctx.fillStyle = 'rgb(220, 190, 140)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(imgPlantaBaixa, 0, 0, imgPlantaBaixa.width, imgPlantaBaixa.height);
     posCanvas = canvas.getBoundingClientRect();
+    //posScrollContainer = scrollContainer.getBoundingClientRect();
+    //console.log('Canvas: '+ posCanvas.left)
+    //console.log('Scroll: '+ posScrollContainer.left)
     drawComponentes();
     if (selecionado || moving) {
         elemento.drawElement(ctx);
@@ -102,7 +105,7 @@ function draw() {
         elemento.drawElement(ctx);
         elemento.drawLenght(ctx);
     }
-    ctx.restore();   
+    //ctx.restore();
 }
 
 function drawComponentes() {
@@ -559,15 +562,12 @@ function clearNameCustomArea() {
     document.querySelector("#customAreaName").value = "";
     document.querySelector(".nameCustomArea").classList.add("hide");
     document.querySelector(".customArea").classList.add("selecionado");
-    canvas.classList.add("pointer");
+    canvas.style.cursor = "pointer";
 }
 
 function nameConfirm() {
     elemento.text = document.querySelector("#customAreaName").value;
-
     formatCoord();
-
-    //customAreas.push(elemento);
     clearNameCustomArea();
 }
 
@@ -638,7 +638,7 @@ canvas.addEventListener("mouseup", function (e) {
         moving = false;
         movingType = '';
     }
-    else if (grabbing){
+    else if (grabbing) {
         canvas.style.cursor = 'grab';
         canvas.style.removeProperty('user-select');
         grabbing = false;
@@ -648,13 +648,21 @@ canvas.addEventListener("mouseup", function (e) {
 function startMoving(e, xClick, yClick) {
     elemento.dx = xClick - elemento.x;
     elemento.dy = yClick - elemento.y;
-    elemento.move(e, posCanvas);
+    elemento.move(e, posCanvas, zoomXY);
     moving = true;
 }
 
+function setXClick(e) {
+    xClick = (e.clientX - posCanvas.left) / zoomXY;
+}
+
+function setYClick(e) {
+    yClick = (e.clientY - posCanvas.top) / zoomXY;
+}
+
 function moveElement(e) {
-    xClick = e.clientX - posCanvas.left;
-    yClick = e.clientY - posCanvas.top;
+    setXClick(e);
+    setYClick(e)
     //Move Item
     if (!moving) {
         for (var i = componentes.length - 1; i >= 0; i--) {
@@ -757,8 +765,8 @@ function moveElement(e) {
 }
 
 function deleteElement(e) {
-    xClick = e.clientX - posCanvas.left;
-    yClick = e.clientY - posCanvas.top;
+    setXClick(e);
+    setYClick(e)
     deleted = false;
 
     //Deletar item
@@ -801,6 +809,17 @@ function deleteElement(e) {
                         document.querySelector("#qtdMesaCarretelP").innerHTML = qtdMesaCarretelP;
                         break;
                 }
+
+                if (componentes[i].id > 0) {
+                    for (var j = componentes.length - 1; j >= 0; j--) {
+                        if (componentes[i].id < componentes[j].id) {
+                            componentes[j].id--;
+                        }
+                    }
+                    componentes[i].id = 0;
+                    numeroItem--;
+                }
+
                 removerConvidado(componentes[i]);
                 componentes.splice(i, 1);
                 deleted = true;
@@ -882,26 +901,26 @@ function deleteElement(e) {
 
 function addLine(e) {
     elemento = new Line();
-    elemento.beginDraw(e, posCanvas);
+    elemento.beginDraw(e, posCanvas, zoomXY);
     drawing = true;
 }
 
 function addWall(e) {
     elemento = new Wall();
-    elemento.beginDraw(e, posCanvas);
+    elemento.beginDraw(e, posCanvas, zoomXY);
     drawing = true;
 }
 
 function addCustomArea(e) {
     elemento = new CustomArea();
-    elemento.beginDraw(e, posCanvas);
+    elemento.beginDraw(e, posCanvas, zoomXY);
     drawing = true;
 }
 
 function addItem(e) {
     if (document.querySelector(".quadrada").classList.contains("selecionado") && qtdMesaQuadrada > 0) {
         componentes.push(elemento);
-        elemento = new Mesa('quadrada', imgMesaQuadrada, e.clientX - posCanvas.left, e.clientY - posCanvas.top, 110, 110, rotation);
+        elemento = new Mesa('quadrada', imgMesaQuadrada, setXClick(e), setYClick(e), 110, 110, rotation);
         addConvidado(elemento);
         qtdMesaQuadrada--;
         if (qtdMesaQuadrada == 0) {
@@ -912,7 +931,7 @@ function addItem(e) {
     }
     else if (document.querySelector(".redonda").classList.contains("selecionado") && qtdMesaRedonda > 0) {
         componentes.push(elemento);
-        elemento = new Mesa('redonda', imgMesaRedonda, e.clientX - posCanvas.left, e.clientY - posCanvas.top, 110, 110, rotation);
+        elemento = new Mesa('redonda', imgMesaRedonda, setXClick(e), setYClick(e), 110, 110, rotation);
         addConvidado(elemento);
         qtdMesaRedonda--;
         if (qtdMesaRedonda == 0) {
@@ -923,7 +942,7 @@ function addItem(e) {
     }
     else if (document.querySelector(".bolo").classList.contains("selecionado") && qtdMesaBolo > 0) {
         componentes.push(elemento);
-        elemento = new Mesa('bolo', imgMesaBolo, e.clientX - posCanvas.left, e.clientY - posCanvas.top, 107.4, 54.3, rotation);
+        elemento = new Mesa('bolo', imgMesaBolo, setXClick(e), setYClick(e), 107.4, 54.3, rotation);
         qtdMesaBolo--;
         if (qtdMesaBolo == 0) {
             document.querySelector(".bolo").classList.remove("selecionado");
@@ -933,7 +952,7 @@ function addItem(e) {
     }
     else if (document.querySelector(".buffet").classList.contains("selecionado") && qtdMesaBuffet > 0) {
         componentes.push(elemento);
-        elemento = new Mesa('buffet', imgMesaBuffet, e.clientX - posCanvas.left, e.clientY - posCanvas.top, 115.2, 43.2, rotation);
+        elemento = new Mesa('buffet', imgMesaBuffet, setXClick(e), setYClick(e), 115.2, 43.2, rotation);
         qtdMesaBuffet--;
         if (qtdMesaBuffet == 0) {
             document.querySelector(".buffet").classList.remove("selecionado");
@@ -943,7 +962,7 @@ function addItem(e) {
     }
     else if (document.querySelector(".carretelG").classList.contains("selecionado") && qtdMesaCarretelG > 0) {
         componentes.push(elemento);
-        elemento = new Mesa('carretelG', imgMesaCarretelG, e.clientX - posCanvas.left, e.clientY - posCanvas.top, 110, 110, rotation);
+        elemento = new Mesa('carretelG', imgMesaCarretelG, setXClick(e), setYClick(e), 110, 110, rotation);
         addConvidado(elemento);
         qtdMesaCarretelG--;
         if (qtdMesaCarretelG == 0) {
@@ -954,7 +973,7 @@ function addItem(e) {
     }
     else if (document.querySelector(".carretelM").classList.contains("selecionado") && qtdMesaCarretelM > 0) {
         componentes.push(elemento);
-        elemento = new Mesa('carretelM', imgMesaCarretelM, e.clientX - posCanvas.left, e.clientY - posCanvas.top, 100, 100, rotation);
+        elemento = new Mesa('carretelM', imgMesaCarretelM, setXClick(e), setYClick(e), 100, 100, rotation);
         addConvidado(elemento);
         qtdMesaCarretelM--;
         if (qtdMesaCarretelM == 0) {
@@ -965,7 +984,7 @@ function addItem(e) {
     }
     else if (document.querySelector(".carretelP").classList.contains("selecionado") && qtdMesaCarretelP > 0) {
         componentes.push(elemento);
-        elemento = new Mesa('carretelP', imgMesaCarretelP, e.clientX - posCanvas.left, e.clientY - posCanvas.top, 90, 90, rotation);
+        elemento = new Mesa('carretelP', imgMesaCarretelP, setXClick(e), setYClick(e), 90, 90, rotation);
         addConvidado(elemento);
         qtdMesaCarretelP--;
         if (qtdMesaCarretelP == 0) {
@@ -977,8 +996,8 @@ function addItem(e) {
 }
 
 function orderItem(e) {
-    xClick = e.clientX - posCanvas.left;
-    yClick = e.clientY - posCanvas.top;
+    setXClick(e);
+    setYClick(e);
     for (var i = componentes.length - 1; i >= 0; i--) {
         var xComp = componentes[i].x,
             yComp = componentes[i].y,
@@ -992,7 +1011,6 @@ function orderItem(e) {
                 if (componentes[i].id == 0) {
                     numeroItem++;
                     componentes[i].id = numeroItem;
-                    console.log(numeroItem);
                     ctx.font = "30px Comic Sans MS";
                     ctx.fillStyle = "red";
                     ctx.fillText("teste" + numeroItem, 50, 50);
@@ -1103,18 +1121,40 @@ canvas.addEventListener('contextmenu', function (e) {
     }
 });
 
+/*
+//Drag screen
+scrollContainer.addEventListener('mousedown', function (e) {
+    scrollContainer.style.cursor = 'grabbing';
+    scrollContainer.style.userSelect = 'none';
+    grabbing = true;
+    console.log('grab')
+    pos = {
+        left: scrollContainer.scrollLeft,
+        top: scrollContainer.scrollTop,
+        x: e.clientX,
+        y: e.clientY,
+    };
+});
+scrollContainer.addEventListener('mouseup', function (e) {
+    if (grabbing) {
+        scrollContainer.style.cursor = 'grab';
+        scrollContainer.style.removeProperty('user-select');
+        grabbing = false;
+    }
+})
+*/
 //Mover componente
 canvas.addEventListener("mousemove", function (e) {
     if (selecionado) {
-        elemento.move(e, posCanvas);
+        elemento.move(e, posCanvas, zoomXY);
     }
     else if (drawing) {
-        elemento.endDraw(e, posCanvas);
+        elemento.endDraw(e, posCanvas, zoomXY);
     }
     else if (moving) {
-        elemento.move(e, posCanvas);
+        elemento.move(e, posCanvas, zoomXY);
     }
-    else if (grabbing){
+    else if (grabbing) {
         const dx = e.clientX - pos.x;
         const dy = e.clientY - pos.y;
         scrollContainer.scrollTop = pos.top - dy;
@@ -1126,38 +1166,169 @@ canvas.addEventListener("mousemove", function (e) {
 function zoom(dv) {
     zoomXY += dv;
     canvas.style.transform = "scale(" + zoomXY + ")";
-  }
-//$('#scroll-container').bind('mousewheel DOMMouseScroll', function (e) { return false; });
+}
+scrollContainer.addEventListener('wheel', event => event.preventDefault());
 scrollContainer.addEventListener('wheel', function (e) {
     var dv;
-    if(e.deltaY == 100){
+    if (e.deltaY == 100) {
         scale = 0.8;
         dv = -0.1;
     }
-    else if (e.deltaY == -100){
+    else if (e.deltaY == -100) {
         scale = 1.2;
         dv = 0.1;
     }
     //ctx.scale(scale, scale);
     zoom(dv);
-    console.log(e);
 });
 
-/*
-let imgInput = document.getElementById('imgInput');
-    imgInput.addEventListener('change', function(e) {
-      if(e.target.files) {
-        let imageFile = e.target.files[0]; //here we get the image file
-        var reader = new FileReader();
-        reader.readAsDataURL(imageFile);
-        reader.onloadend = function (e) {
-          var myImage = new Image(); // Creates image object
-          myImage.src = e.target.result; // Assigns converted image to image object
-          myImage.onload = function(ev) {
-            ctx.drawImage(myImage,0,0); // Draws the image on canvas
-            let imgData = canvas.toDataURL("image/jpeg",0.75); // Assigns image base64 string in jpeg format to a variable
-          }
-        }
-      }
-    });
-*/
+//Open form
+function openForm(){
+    document.querySelector(".send-mapping").classList.remove("hide");
+}
+
+//Close form
+function closeForm(){
+    document.querySelector(".send-mapping").classList.add("hide");
+}
+
+//Esconder Input Text
+document.getElementById("eu-sou").addEventListener("change", function (e) {
+    if (document.querySelector(".eu select").value == 5) {
+        document.querySelector(".eu input").classList.remove("hide");
+    }
+    else {
+        document.querySelector(".eu input").classList.add("hide");
+    }
+});
+
+//Esconder Label
+document.querySelector("#nome").addEventListener("change", function (e) {
+    if (document.getElementById("nome").value != "") {
+        document.querySelector("#nome-label").classList.add("hide-opacity");
+    }
+    else {
+        document.querySelector("#nome-label").classList.remove("hide-opacity");
+    }
+});
+document.querySelector("#fone").addEventListener("change", function (e) {
+    if (document.getElementById("fone").value != "") {
+        document.querySelector("#fone-label").classList.add("hide-opacity");
+    }
+    else {
+        document.querySelector("#fone-label").classList.remove("hide-opacity");
+    }
+});
+document.querySelector("#email").addEventListener("change", function (e) {
+    if (document.getElementById("email").value != "") {
+        document.querySelector("#email-label").classList.add("hide-opacity");
+    }
+    else {
+        document.querySelector("#email-label").classList.remove("hide-opacity");
+    }
+});
+document.querySelector("#observacao").addEventListener("change", function (e) {
+    if (document.getElementById("observacao").value != "") {
+        document.querySelector("#observacao-label").classList.add("hide-opacity");
+    }
+    else {
+        document.querySelector("#observacao-label").classList.remove("hide-opacity");
+    }
+});
+
+function validarEmail(email) {
+    usuario = email.value.substring(0, email.value.indexOf("@"));
+    dominio = email.value.substring(email.value.indexOf("@") + 1, email.value.length);
+
+    if ((usuario.length >= 1) &&
+        (dominio.length >= 3) &&
+        (usuario.search("@") == -1) &&
+        (dominio.search("@") == -1) &&
+        (usuario.search(" ") == -1) &&
+        (dominio.search(" ") == -1) &&
+        (dominio.search(".") != -1) &&
+        (dominio.indexOf(".") >= 1) &&
+        (dominio.lastIndexOf(".") < dominio.length - 1)) {
+        return true;
+        //document.getElementById("msgemail").innerHTML="E-mail válido";
+    }
+    else {
+        //document.getElementById("msgemail").innerHTML="<font color='red'>E-mail inválido </font>";
+        return false;
+    }
+}
+
+//Enviar Form
+function sendEmail() {
+    var nome = document.getElementById("nome");
+    var fone = document.getElementById("fone");
+    var email = document.getElementById("email");
+    var euSou = document.getElementById("eu-sou");
+    var outro = document.getElementById("outro");
+    var observacao = document.getElementById("observacao");
+
+    if (nome.value == "") {
+        alert("Nome não informado");
+        nome.focus();
+        return;
+    }
+    if (fone.value == "") {
+        alert("Fone não informado");
+        fone.focus();
+        return;
+    }
+    if (!validarEmail(email)) {
+        alert("E-mail inválido");
+        email.focus();
+        return;
+    }
+    if (euSou.value == "0") {
+        alert('"Eu sou" não informado');
+        euSou.focus();
+        return;
+    }
+    if (euSou.value == "5" && outro.value == "") {
+        alert("Especifique quem é você");
+        outro.focus();
+        return;
+    }
+
+    var sou;
+    if (euSou.value == 5) {
+        sou = outro.value;
+    }
+    else {
+        sou = $('#eu-sou :selected').text();
+    }
+
+    var canvas = document.querySelector('canvas');
+    dataUrl = canvas.toDataURL();
+
+    Email.send({
+        Host: "smtp.gmail.com",
+        Username: atob("c3JwZm9ybUBnbWFpbC5jb20="),
+        Password: atob("c3JwZm9ybTEyMw=="),
+        To: atob("c3JwZm9ybUBnbWFpbC5jb20="),
+        From: atob("c3JwZm9ybUBnbWFpbC5jb20="),
+        Subject: "Novo Layout Criado",
+        Body: "Nome: " + nome.value + "<br/>"
+            + "Fone: " + fone.value + "<br/>"
+            + "E-mail: " + email.value + "<br/>"
+            + "Eu sou: " + sou + "<br/>"
+            + "Convidados: " + qtdConvidados + "<br/>"
+            + "Mesa quadrada: " + (25 - qtdMesaQuadrada) + "<br/>"
+            + "Mesa redonda: " + (10 - qtdMesaRedonda) + "<br/>"
+            + "Mesa de bolo: " + (2 - qtdMesaBolo) + "<br/>"
+            + "Mesa de buffet: " + (2 - qtdMesaBuffet) + "<br/>"
+            + "Mesa Carretel G: " + (3 - qtdMesaCarretelG) + "<br/>"
+            + "Mesa Carretel M: " + (7 - qtdMesaCarretelM) + "<br/>"
+            + "Mesa Carretel P: " + (1 - qtdMesaCarretelP) + "<br/>"
+            + "Observação: " + observacao.value + "<br/>"
+            + dataUrl
+    })
+        .then(function () {
+            alert("Obrigado sr(a) " + nome.value + ", seus dados foram enviados com sucesso!");
+        });
+
+    closeForm();
+}
