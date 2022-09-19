@@ -1327,7 +1327,7 @@ function sendEmail() {
             + dataUrl
     })
         .then(function () {
-            alert("Obrigado sr(a) " + nome.value + ", seus dados foram enviados com sucesso!");
+            alert("Obrigado " + nome.value + ", seus dados foram enviados com sucesso!");
         });
 
     closeForm();
