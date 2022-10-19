@@ -1084,7 +1084,7 @@ header{
 .redes-sociais span{
     color: white;
     margin: 0;
-    font-size: 30px;
+    font-size: 24px;
     margin-right: 20px;
 }
 
@@ -1144,10 +1144,13 @@ header{
 }
 
 @media screen and (max-width:400px) {
+    .sessao-body{
+        padding: 20px 0;
+    }
     .foto-img-wrapper{
         width: 70%;
     }
-
+    
     .contato-img-wrapper{
         width: 100%;
     }
@@ -1163,8 +1166,12 @@ header{
     .redes-sociais span{
         width: 100%;
         margin: 0;
+        margin-top: 10px;
     }
     .footer-logo img{
         width: 70%;
+    }
+    .centralizar .fone-footer{
+        font-size: 20px;
     }
 }
