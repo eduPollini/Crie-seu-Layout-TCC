@@ -62,17 +62,15 @@
                     <h1>Sobre Nós</h1>
                 </div>
                 <div class="sessao-body">
-                    <div class="foto">
+                    <div class="sobre-nos-body">
                         <div class="foto-img-wrapper">
                             <img src="imagens/portal.jpeg" alt="Sobre nós foto 1">
                         </div>
-                    </div>
-                    <div class="sobre-nos-text">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic nostrum accusantium,
-                            omnis consectetur expedita ratione voluptas ipsam aliquam quam distinctio sint eligendi facilis eveniet,
-                            doloribus earum. Dolore iste assumenda reiciendis?</p>
-                    </div>
-                    <div class="foto">
+                        <div class="sobre-nos-text">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic nostrum accusantium,
+                                omnis consectetur expedita ratione voluptas ipsam aliquam quam distinctio sint eligendi facilis eveniet,
+                                doloribus earum. Dolore iste assumenda reiciendis?</p>
+                        </div>
                         <div class="foto-img-wrapper">
                             <img src="imagens/leidi.jpeg" alt="Sobre nós foto 2">
                         </div>
@@ -181,13 +179,12 @@
             </section> -->
 
             <!-- Contato -->
-            <section class="sessao bg-verde maxVh" id="contato">
+            <section class="sessao bg-verde" id="contato">
                 <div class="sessao-header border-white">
                     <h1>Contato</h1>
                 </div>
-                <div class="sessao-body sessao-contato">
-                    <div class="contato-img-wrapper"></div>
-                    <div class="sessao-form">
+                <div class="sessao-contato">
+                    <div class="contato-img-wrapper">
                         <form id="contato-form" method="post">
                             <div class="input-group">
                                 <input type="text" class="field" id="nome" value="">
@@ -210,8 +207,13 @@
                                     <option value="4">Aniversariante</option>
                                     <option value="5">Personalizar</option>
                                 </select>
-                                <input type="text" class="field hide" id="outro">
                             </div>
+                            <div class="input-group outro hide">
+                                <input type="text" class="field" id="outro">
+                                <label for="outro" class="field-label" id="outro-label">Eu sou...</label>
+                            </div>
+                                
+                            
                             <div class="input-group">
                                 <textarea class="field scroll-bar" id="observacao"></textarea>
                                 <label for="observacao" class="field-label" id="observacao-label">Observação</label>
@@ -220,16 +222,27 @@
                                 <input type="button" class="btn btn-submit" id="btnEnviarMsg" value="Enviar" onclick="sendEmail()">
                             </div>
                         </form>
-                        <div class="anexar-layout hide">
-                            <img src="imagens/mesaQuadrada.png" alt="img de mapeamento anexado" id="anexar-layout-img">
-                            <label for="" class="anexar-layout-label">Layout anexado</label>
-                        </div>
-                        <div class="hide">
-                            
-                        </div>
                     </div>
                 </div>
             </section>
+        </div>
+
+        <!--Footer-->
+        <div class="footer">
+            <div class="center">
+                <div class="redes-sociais">
+                    <div class="centralizar">
+                        <span>Redes Sociais</span>
+                        <a href="https://www.facebook.com/sitiorefugiodospassaros" class="fab fa-facebook" target="_blank"></a>
+                        <a href="https://www.instagram.com/sitiorefugiodospassaros/" class="fab fa-instagram" target="_blank"></a>
+                        <a href="" class="fab fa-whatsapp" target="_blank" onclick="abrirWhatsApp()"></a>
+                    </div>
+                    
+                </div>
+                <div class="footer-logo">
+                    <img src="imagens/logo.png" alt="logo">
+                </div>
+            </div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
